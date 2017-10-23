@@ -1,0 +1,461 @@
+/*
+    Theme Name: Knight
+    Theme URL: https://bootstrapmade.com/knight-free-bootstrap-theme/
+    Author: BootstrapMade
+    Author URL: https://bootstrapmade.com
+*/
+
+/* CSS Document */
+
+/* Float Elements 
+---------------------------------*/
+.fl-lt {float:left;}
+.fl-rt {float:right;}
+
+/* Clear Floated Elements
+---------------------------------*/
+.clear {
+  clear: both;
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
+.clearfix:before,
+.clearfix:after {
+  content: '\0020';
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+.figure{ margin:0px;}
+
+img{ max-width:100%;}
+
+a, a:hover, a:active{ outline:0px !important}
+
+
+/* Primary Styles
+---------------------------------*/
+body {
+	background:#fff;
+	font-family: 'Open Sans', sans-serif;
+	font-size:14px;
+	font-weight:normal;
+	color:#888888;
+	margin:0;
+}
+h2{
+  	font-family:  'Helvetica', 'Arial-Bold', sans-serif;
+	text-transform: uppercase;
+	font-size:34px;
+	color:#fff;
+	font-family: 'Montserrat', sans-serif;
+	font-weight:700;
+	letter-spacing: -1px;
+	margin:0 0 15px 0;
+	text-align:center;
+}
+h3{
+	font-family: 'Montserrat', sans-serif;
+	color:#222222;
+	font-size:16px;
+	margin:0 0 5px 0;
+	text-transform:uppercase;
+	font-weight:bolder;
+}
+h6{
+	padding-bottom: 50px;
+	font-size:16px;
+	color:#888888;
+	font-family: 'Open Sans', sans-serif;
+	font-weight:400;
+	text-align:center;
+	margin:0 0 60px 0;
+}
+p{
+	color: #fafaf1;
+	line-height:24px;
+	margin:0;
+}
+
+/* Header Styles
+---------------------------------*/
+
+
+#team {
+    background-image: url("../img/team1.jpg");
+
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+    background-attachment: fixed;
+}
+.isotope .isotope-item {
+  /* change duration value to whatever you like */
+  -webkit-transition-duration: 0.6s;
+     -moz-transition-duration: 0.6s;
+          transition-duration: 0.6s;
+}
+
+.isotope .isotope-item {
+  -webkit-transition-property: -webkit-transform, opacity;
+     -moz-transition-property:    -moz-transform, opacity;
+          transition-property:         transform, opacity;
+}
+
+.main-section.paddind{
+	padding-bottom:60px;
+}
+
+/* Team---------------------------------*/
+#team h3{
+  font-family:'Helvetica', 'Arial-Bold', sans-serif;
+  padding-top: 3px;
+  color: #fff !important;
+  font-size: 20px;
+  text-align: center;
+  text-transform: none;
+  margin-top: 0;
+  padding-bottom: 20px;}
+#team h6{
+  font-family:'Helvetica', 'Arial-Bold', sans-serif;
+  padding-top: 3px;
+  color: #fff !important;
+  font-size: 20px;
+  text-align: center;
+  text-transform: none;
+  margin-top: 0;
+  padding-bottom: 20px;}
+
+#team span{
+  font-family: sans-serif;
+  font-size: 18px;
+  padding-top: 3px;
+  color: #fff !important;
+  text-align: center;
+  text-transform: none;
+  margin-top: 0;
+  padding-bottom: 20px;}
+
+  #team p{
+  font-family: sans-serif;
+  padding-top: 3px;
+  color: #fff !important;
+  text-align: center;
+  text-transform: none;
+  margin-top: 0;
+  font-size: 14px;
+  padding-bottom: 20px;
+}
+.team-leader-block{
+	max-width:993px;
+	margin:0 auto;
+}
+.team-leader-box{
+	width:30.66%;
+	margin-right: 3.82979%;
+	height: 490px;
+	overflow: hidden;
+	text-align: center;
+	float: left;
+}
+.team-leader-box span{
+	margin-top:24px;
+	display:block;
+}
+
+.team-leader-box:nth-of-type(3n+0){ margin:0;}
+
+.team-leader{
+	width:auto;
+	height:auto;
+	position:relative;
+	border-radius:50%;
+	box-shadow:0px 0px 0px 4px rgba(241,241,241,1);
+	margin:7px 7px 25px 7px;
+	
+}
+
+
+.team-leader:hover .team-leader-shadow{
+	box-shadow:inset  0px 0px 0px 148px rgba(164,26,40,0.80);
+}
+
+.team-leader-shadow{
+	transition:all 0.3s ease-in-out;
+	-moz-transition:all 0.3s ease-in-out;
+	-webkit-transition:all 00.3s ease-in-out;
+	border-radius:50%;
+	position:absolute;
+	width:100%;
+	height:100%;
+	z-index:10;
+	border-radius:50%;
+}
+
+
+
+.team-leader-shadow a{
+	display:block;
+	width:100%;
+	height:100%;
+}
+
+
+.team-leader:hover .team-leader-shadow{
+	box-shadow:inset  0px 0px 0px 148px rgba(17,17,17,0.80);
+}
+
+
+.team-leader:hover ul{ display:block; opacity:1}
+.team-leader img{
+	display:block;
+	border-radius:50%;
+}
+.team-leader ul{
+	display:block;
+	opacity:0;
+	padding:0;
+	margin:0;
+	list-style:none;
+	position:absolute;
+	left:0;
+	top:50%;
+	width:100%;
+	text-align:center;
+	margin-top:-14px;
+	z-index:15;
+	transition:all 0.6s ease-in-out;
+	-moz-transition:all 0.6s ease-in-out;
+	-webkit-transition:all 0.6s ease-in-out;
+}
+.team-leader ul li{
+	display:inline;
+	margin:0 4px;
+}
+.team-leader ul li a{
+	font-family: 'FontAwesome';
+	display:inline-block;
+	font-size:28px;
+	color:#fff;	
+	transition:all 0.3s ease-in-out;
+	-moz-transition:all 0.3s ease-in-out;
+	-webkit-transition:all 0.3s ease-in-out;
+}
+.team-leader ul li a:hover, .team-leader ul li a:focus{
+	text-decoration:none;
+}
+.team-leader ul li a.fa-twitter:hover{
+	color:#cb2026;
+}
+.team-leader ul li a.fa-facebook:hover{
+	color:#cb2026;
+}
+.team-leader ul li a.fa-linkedin:hover{
+	color:#cb2026;
+}
+.team-leader ul li a.fa-pinterest:hover{
+	color:#cb2026;
+}
+.team-leader ul li a.fa-google-plus:hover{
+	color:#cb2026;
+}
+
+
+
+
+
+@media (min-width: 768px) {
+ .team-leader{
+  	width:90%;
+	height:auto;
+	position:relative;
+	border-radius:50%;
+	box-shadow:0px 0px 0px 4px rgba(241,241,241,1);
+	margin:7px 7px 25px 7px;
+	}
+	#mark {
+		width: 600% !important;
+		height: auto;
+		position: relative;
+		border-radius: 50%;
+	}
+
+}
+
+@media (min-width: 414px) {
+ .team-leader{
+ 	text-align: center !important;
+ 	align-content: center !important;
+  	width:70%;
+	height:auto;
+	position:relative;
+	border-radius:50%;
+	box-shadow:0px 0px 0px 4px rgba(241,241,241,1);
+	margin:7px 7px 25px 7px;
+	}
+	#mark {
+		align-content: center;
+		width: 100% !important;
+		height: auto;
+		position: relative;
+		border-radius: 50%;
+	}
+}
+
+@media (min-width: 412px) {
+ .team-leader{
+ 	text-align: center !important;
+ 	align-content: center !important;
+  	width:70%;
+	height:auto;
+	position:relative;
+	border-radius:50%;
+	box-shadow:0px 0px 0px 4px rgba(241,241,241,1);
+	margin:7px 7px 25px 7px;
+	}
+	#mark {
+		align-content: center;
+		width: 100% !important;
+		height: auto;
+		position: relative;
+		border-radius: 50%;
+	}
+}
+
+@media (min-width: 375px) {
+ .team-leader{
+ 	text-align: center !important;
+ 	align-content: center !important;
+  	width:70%;
+	height:auto;
+	position:relative;
+	border-radius:50%;
+	box-shadow:0px 0px 0px 4px rgba(241,241,241,1);
+	margin:7px 7px 25px 7px;
+	}
+	#mark {
+		align-content: center;
+		width: 100% !important;
+		height: auto;
+		position: relative;
+		border-radius: 50%;
+	}
+}
+
+/*Mission*/
+.mission-block{
+	max-width:993px;
+	margin:0 auto;
+}
+.mission-box{
+	width:30.66%;
+	margin-right: 3.82979%;
+	height: 490px;
+	overflow: hidden;
+	text-align: center;
+	float: left;
+}
+
+
+.mission{
+	width:auto;
+	height:auto;
+	position:relative;
+	box-shadow:0px 0px 0px 7px rgba(241,241,241,0.80);
+	margin:7px 7px 25px 7px;
+	
+}
+
+.mission-shadow{
+	transition:all 0.3s ease-in-out;
+	-moz-transition:all 0.3s ease-in-out;
+	-webkit-transition:all 0.3s ease-in-out;
+	position:absolute;
+	width:100%;
+	height:100%;
+}
+
+
+
+.mission-shadow a{
+	display:block;
+	width:100%;
+	height:100%;
+}
+
+
+.mission:hover .mission-shadow{
+	box-shadow: inset  0px 0px 0px 148px rgba(164,26,40,0.80);
+}
+
+
+
+.mission:hover ul{ display:block; opacity:1}
+
+.mission img{
+	display:block;
+}
+
+
+.mission ul{
+	display:block;
+	opacity:0;
+	padding:0;
+	margin:0;
+	list-style:none;
+	position:absolute;
+	left:0;
+	top:50%;
+	width:100%;
+	text-align:center;
+	margin-top:-14px;
+	z-index:15;
+	transition:all 0.6s ease-in-out;
+	-moz-transition:all 0.6s ease-in-out;
+	-webkit-transition:all 0.6s ease-in-out;
+}
+
+.mission ul li{
+	display:inline;
+	margin:0 4px;
+}
+.mission ul li a{
+	font-family: 'FontAwesome';
+	display:inline-block;
+	font-size:28px;
+	color:#111;	
+	transition:all 0.3s ease-in-out;
+	-moz-transition:all 0.3s ease-in-out;
+	-webkit-transition:all 0.3s ease-in-out;
+}
+.mission ul li a:hover, .mission ul li a:focus{
+	text-decoration:none;
+}
+.mission ul li a.fa-twitter:hover{
+	color:#cb2026;
+}
+.mission ul li a.fa-facebook:hover{
+	color:#cb2026;
+}
+.mission ul li a.fa-pinterest:hover{
+	color:#cb2026;
+}
+.mission ul li a.fa-google-plus:hover{
+	color:#cb2026;
+}
+
+
+
+
+/*Sampple*/

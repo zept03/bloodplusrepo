@@ -1,0 +1,229 @@
+
+html, body{
+	font-family: 'Roboto', sans-serif;
+  	background: #f2f2f2;
+}
+
+h4{
+	font-weight: bold;
+}
+h5{
+	font-weight: bold;
+}
+
+a {
+	color:black;
+}
+a:hover {
+	color: #D61F2B;
+	text-decoration: none;
+}
+@media (min-width: 1360px) and (max-width: 1366px){	
+	.navbar-fixed-left{
+		border: 1px solid #ddd;
+		border-radius: 0px;
+		position: fixed;
+		top: 90px;
+		left: 156px;
+		width: 250px;
+	}
+}
+
+@media (min-width: 1599px) and (max-width: 1768px){
+	.navbar-fixed-left{
+		border: 1px solid #ddd;
+		border-radius: 0px;
+		position: fixed;
+		top: 90px;
+		left: 277px;
+		width: 250px;
+	}
+}
+
+@media (min-width: 1919px) and (max-width: 1920px){
+	.navbar-fixed-left{
+		border: 1px solid #ddd;
+		border-radius: 0px;
+		position: fixed;
+		top: 110px;
+		left: 400px;
+		width: 250px;
+	}
+}
+
+.navbar-brand{
+	color: #fff !important;
+}
+
+.navbar-form{
+	-webkit-box-shadow: none !important;
+    box-shadow: none !important;    
+}
+
+.navbar-default, .navbar-default .navbar-form{
+	border: none;
+}
+
+.dropdown-menu>li>a{
+	color: #444 !important;
+}
+
+.navbar-right li a.navlinks{
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	color: #fff !important;
+}
+
+
+
+.navbar-right li a{
+	font-size: 15px !important;
+	text-align: left;
+}
+
+.navbar-default .navbar-nav>.open>a{
+	background: #ab1822 !important;
+}
+
+.glyphicon-search{
+	color: #D61F2B;
+}
+
+.glyphicon-heart{
+	font-size: 26px;
+	color: #E1E1E1;
+}
+
+.activeHeart{
+	color: red;
+}
+.dropdown .dropdown-menu {
+    -webkit-transition: max-height 0.7s, opacity 0.2s 0.1s, visibility 0s 0.7s;
+    -moz-transition: max-height 0.7s, opacity 0.2s 0.1s, visibility 0s 0.7s;
+    -ms-transition: max-height 0.7s, opacity 0.2s 0.1s, visibility 0s 0.7s;
+    -o-transition: max-height 0.7s, opacity 0.2s 0.1s, visibility 0s 0.7s;
+    transition: max-height 0.7s, opacity 0.2s 0.1s, visibility 0s 0.7s;
+
+    max-height: 0;
+    display: block;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.dropdown.open .dropdown-menu {
+    -webkit-transition: max-height 0.7s, opacity 0.2s, visibility 0s;
+    -moz-transition: max-height 0.7s, opacity 0.2s, visibility 0s;
+    -ms-transition: max-height 0.7s, opacity 0.2s, visibility 0s;
+    -o-transition: max-height 0.7s, opacity 0.2s, visibility 0s;
+    transition: max-height 0.7s, opacity 0.2s, visibility 0s;
+
+    max-height: 350px;
+    opacity: 1;
+    visibility: visible;
+}
+
+.notification-list{
+	padding: 0px;
+}
+hr {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.account-list{
+	padding: 10px;
+}
+
+.dropdown-menu{
+	background: #fff !important;
+}
+
+.first-dropdown{
+	overflow-y: scroll !important;
+}
+
+::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #4c4c4c;
+}
+
+.col-md-3 .panel-body ul li{
+	list-style-type: none;
+	text-align: center;
+}
+
+.col-md-8 .panel-body ul li{
+	display: inline-block;
+	list-style-type: none;
+}
+
+.sidebar-avatar{
+	min-width: 150px !important;
+  min-height: 150px !important;
+  max-width: 150px !important;
+  max-height: 150px !important;
+	border-radius: 50%;
+	width: 150px;
+	border:2px solid #D61F2B;
+}
+
+.sidebar-first-row{
+	background: #ffffff; padding: 15px;
+}
+
+.sidebar-second-row{
+	border-top: 2px solid #D61F2B;
+	border-bottom: 2px solid #D61F2B;
+	padding: 25px; background: #fff;
+}
+
+.panel-default{
+	border-radius: 0px;
+}
+
+.card-header-ul{
+	padding-left: 0px;
+}
+
+.card-header-row{
+	margin-left: 10px;
+}
+
+.card-header-img{
+	min-width: 65px !important;
+	max-width: 65px !important;
+	width: 65px;
+	border-radius: 50%;
+	border: 2px solid #D61F2B;
+	margin-top: -30px;
+}
+
+.card-header-address{
+	font-size: 12px;
+}
+
+.form-control:active,
+.form-control:hover,
+.form-control:focus {
+	border-color: red !important;
+}
+
+.searchtabs {
+	border: 1px solid #ddd;
+}

@@ -1,0 +1,215 @@
+
+html, body{
+  font-family: 'Roboto', sans-serif;
+  background: #f2f2f2;
+}
+
+h5{
+  font-weight: bold;
+}
+
+@media (min-width: 1919px) and (max-width: 1920px){
+  .navbar-fixed-left{
+    border: 1px solid #ddd;
+    border-radius: 0px;
+    position: fixed;
+    top: 110px;
+    left: 400px;
+  }
+}
+
+.navbar-brand{
+  color: #fff !important;
+}
+
+.navbar-form{
+  -webkit-box-shadow: none !important;
+    box-shadow: none !important;    
+}
+
+.navbar-default, .navbar-default .navbar-form{
+  border: none;
+}
+
+.dropdown-menu>li>a{
+  color: #444 !important;
+}
+
+.navbar-right li a.navlinks{
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #fff !important;
+}
+
+.navbar-right li a{
+  font-size: 15px !important;
+  text-align: left;
+}
+
+.navbar-default .navbar-nav>.open>a{
+  background: #ab1822 !important;
+}
+
+.glyphicon-search{
+  color: #D61F2B;
+}
+
+.glyphicon-heart{
+  font-size: 26px;
+  color: #E1E1E1;
+}
+
+.dropdown .dropdown-menu {
+    -webkit-transition: max-height 0.7s, opacity 0.2s 0.1s, visibility 0s 0.7s;
+    -moz-transition: max-height 0.7s, opacity 0.2s 0.1s, visibility 0s 0.7s;
+    -ms-transition: max-height 0.7s, opacity 0.2s 0.1s, visibility 0s 0.7s;
+    -o-transition: max-height 0.7s, opacity 0.2s 0.1s, visibility 0s 0.7s;
+    transition: max-height 0.7s, opacity 0.2s 0.1s, visibility 0s 0.7s;
+
+    max-height: 0;
+    display: block;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.dropdown.open .dropdown-menu {
+    -webkit-transition: max-height 0.7s, opacity 0.2s, visibility 0s;
+    -moz-transition: max-height 0.7s, opacity 0.2s, visibility 0s;
+    -ms-transition: max-height 0.7s, opacity 0.2s, visibility 0s;
+    -o-transition: max-height 0.7s, opacity 0.2s, visibility 0s;
+    transition: max-height 0.7s, opacity 0.2s, visibility 0s;
+
+    max-height: 190px;
+    opacity: 1;
+    visibility: visible;
+}
+
+.notification-list{
+  padding: 15px;
+}
+
+.account-list{
+  padding: 10px;
+}
+
+.dropdown-menu{
+  background: #fff !important;
+}
+
+.first-dropdown{
+  overflow-y: scroll !important;
+}
+
+::-webkit-scrollbar-track
+{
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 10px;
+  background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar
+{
+  width: 12px;
+  background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb
+{
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: #4c4c4c;
+}
+
+.col-md-3 .panel-body ul li{
+  list-style-type: none;
+  text-align: center;
+}
+
+.sidebar-avatar{
+  border-radius: 50%;
+  width: 120px;
+  border:2px solid #D61F2B;
+}
+
+.sidebar-first-row{
+  background: #F8F8F8; padding: 15px;
+}
+
+.sidebar-second-row{
+  border-top: 2px solid #D61F2B;
+  border-bottom: 2px solid #D61F2B;
+  padding: 25px; background: #fff;
+}
+
+.panel-default{
+  border-radius: 0px;
+}
+
+.card-header-address{
+  font-size: 12px;
+}
+
+/* Default mode */
+.nav-tabs.nav-justified>.active>a:focus,.nav-tabs.nav-justified>.active>a:hover{
+	border: 0px !important;
+}
+
+.tabbable-line > .nav-tabs {
+  border: none;
+  margin: 0px;
+}
+.tabbable-line > .nav-tabs > li {
+  margin-right: 2px;
+  background: #fff !important;
+}
+.tabbable-line > .nav-tabs > li > a {
+  border: 0;
+  margin-right: 0;
+  color: #737373;
+  background: #fff !important;
+}
+.tabbable-line > .nav-tabs > li > a > i {
+  color: #a6a6a6;
+}
+.tabbable-line > .nav-tabs > li.open, .tabbable-line > .nav-tabs > li:hover {
+  border-bottom: 4px solid #fbcdcf;
+}
+.tabbable-line > .nav-tabs > li.open > a, .tabbable-line > .nav-tabs > li:hover > a {
+  border: 0;
+  background: none !important;
+  color: #333333;
+}
+.tabbable-line > .nav-tabs > li.open > a > i, .tabbable-line > .nav-tabs > li:hover > a > i {
+  color: #a6a6a6;
+}
+.tabbable-line > .nav-tabs > li.open .dropdown-menu, .tabbable-line > .nav-tabs > li:hover .dropdown-menu {
+  margin-top: 0px;
+}
+.tabbable-line > .nav-tabs > li.active {
+  border-bottom: 4px solid #f3565d;
+  position: relative;
+}
+.tabbable-line > .nav-tabs > li.active > a {
+  border: 0;
+  color: #333333;
+}
+.tabbable-line > .nav-tabs > li.active > a > i {
+  color: #404040;
+}
+.tabbable-line > .tab-content {
+  margin-top: -3px;
+  background-color: #fff;
+  border: 0;
+  border-top: 1px solid #eee;
+  padding: 15px;
+}
+.portlet .tabbable-line > .tab-content {
+  padding-bottom: 0;
+}
+
+.req-blood-btn{
+  background: #D61F2B !important;
+  color: #fff !important;
+  border-radius: 0px;
+}
