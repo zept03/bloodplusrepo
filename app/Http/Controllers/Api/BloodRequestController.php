@@ -68,6 +68,7 @@ class BloodRequestController extends Controller
             'units' => $request->input('units'),
             'status' => 'Pending'
             ]);
+
         Log::create([
             'initiated_id' => Auth::user()->id,
             'initiated_type' => 'App\User',
@@ -89,8 +90,8 @@ class BloodRequestController extends Controller
         {
             $admin->notify(new BloodRequestNotification($class,$user,$message));
         
-}
-        return response()->json(array("bloodRequest"=>$bloodRequest,
+        }
+        return response()->json(array("bloodRequest"=>$bloodRequest->load(['institute','details']),
             "status" => 'Successful',
             "message" => 'Successfully created blood request'));
         }
@@ -175,7 +176,6 @@ class BloodRequestController extends Controller
         {
             $admin->notify(new BloodRequestNotification($class,$user,$message));
         }
-        //log niya
         Log::create([
         'initiated_id' => Auth::user()->id,
         'initiated_type' => 'App\User',

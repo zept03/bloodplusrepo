@@ -10,6 +10,7 @@ use App\BloodRequest;
 use App\BloodRequestDetail;
 use App\Post;
 use App\Notifications\BloodRequestNotification;
+use Carbon\Carbon;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,6 +23,7 @@ use App\Notifications\BloodRequestNotification;
 */
 Route::get('/abcdefg',function (){
     // $exitCode = Artisan::call('cache:clear');
+    dd(Carbon::now()->timezone('Asia/Manila')->toDateTimeString());
     $exitCode = Artisan::call('db:seed');
     // $exitCode = Artisan::call('config:cache');
     // $exitCode = Artisan::call('storage:link');

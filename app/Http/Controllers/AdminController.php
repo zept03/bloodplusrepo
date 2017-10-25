@@ -25,6 +25,7 @@ class AdminController extends Controller
 
     public function index()
     {
+        // dd(BloodRequest::with(['institute','details'])->first());
         $bloodDonors = count(User::where('status','active')->get());
         $campaignCount = count(Campaign::where('status','Done')->get());
         $logs = Log::where('initiated_id',Auth::guard('web_admin')->user()->id)->orderBy('created_at','desc')->paginate(10);

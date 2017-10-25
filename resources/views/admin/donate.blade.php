@@ -35,7 +35,7 @@
       <div class="box-body">
       <div class="nav-tabs-custom">
       <ul class="nav nav-tabs">
-        <li class="active"><a href="#tab_1" data-toggle="tab">Requests</a></li>
+        <li class="active"><a href="#tab_1" data-toggle="tab">Pending</a></li>
         <li><a href="#tab_2" data-toggle="tab">Accepted</a></li>
         <li><a href="#tab_3" data-toggle="tab">Done</a></li>
         <li><a href="#tab_4" data-toggle="tab">Decline</a></li>
@@ -46,44 +46,46 @@
         <table id = "pending_requests" class="table table-hover ">
           <thead>
             <tr>
-                <th>ID</th>
+                <th>Donate ID</th>
                 <th>Name</th>
-                <th>Contact Information</th>
                 <th>Blood Type</th>  
-                <th>Request Type</th>
+                <th>Donate Type</th>
+                <th>Request ID</th>
                 <th>Date Requested</th>
                 <th>Appointment Time</th>
                 <th>Actions</th>
             </tr>
         </thead>
           <tbody>
-          @if($donor_requests)
-          @foreach($donor_requests as $donor)
-            @if($donor->status=="Pending")
-            <tr>
-            <td>{{ $donor->id }} </td>
-            <td>{{ $donor->user->fname.' '.$donor->user->lname }} </td>
-            <td>0{{ $donor->user->contactinfo }}</td>
-            <td>{{ $donor->user->bloodType}}</td>
-              @if($donor->appointment_time)
-            <td>VOLUNTARY</td>
-            <td>{{ $donor->appointment_time->format('F d Y')}}</td>
-            <td>{{ $donor->appointment_time->format(' h:i A')}}</td>
-              @else
-            <td>RESPONSE</td>
-            <td>{{ $donor->created_at->format('F d Y') }}</td>
-            <td> ASAP</td>
+          @if($requests)
+            @foreach($requests as $donor)
+              @if($donor->status == 'Pending')
+              <tr>
+              <td>{{ $donor->id }} </td>
+          
+              <td>{{ $donor->user->fname.' '.$donor->user->lname }} </td>
+              <td>{{ $donor->user->bloodType}}</td>
+                @if($donor->appointment_time)
+              <td>VOLUNTARY</td>
+              <td>n/a</td>
+              <td>{{ $donor->appointment_time->format('F d Y')}}</td>
+              <td>{{ $donor->appointment_time->format(' h:i A')}}</td>
+                @else
+              <td>RESPONSE</td>
+              <td>{{$donor->bloodRequest->request->id}}</td>
+              <td>{{ $donor->created_at->format('F d Y') }}</td>
+              <td> ASAP</td>
               @endif
-            <td>
-            <button type="button" value = "{{$donor->id}}" class="btn-xs btn-danger decl acceptRequest" >Accept</button>
-            @if($donor->appointment_time)
-            <button type="button" value = "{{$donor->id}}" class="btn-xs btn-danger decl setRequest">Reschedule</button>
-            @endif
-            <button type="button" value = "{{$donor->id}}" class="btn-xs btn-danger decl declineRequest">Decline</button>
-            </td>
-            </tr>
-            @endif
-          @endforeach
+              <td>
+              <button type="button" value = "{{$donor->id}}" class="btn-xs btn-danger decl acceptRequest" >Accept</button>
+              @if($donor->appointment_time)
+              <button type="button" value = "{{$donor->id}}" class="btn-xs btn-danger decl setRequest">Reschedule</button>
+              @endif
+              <button type="button" value = "{{$donor->id}}" class="btn-xs btn-danger decl declineRequest">Decline</button>
+              </td>
+              </tr>
+              @endif
+            @endforeach
           @endif
           </tbody>
         </table>

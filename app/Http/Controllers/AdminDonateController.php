@@ -18,9 +18,9 @@ class AdminDonateController extends Controller
    		$id = Auth::guard('web_admin')->user()->institute->id;
 
         $donor_requests = DonateRequest::where('institution_id',$id)->orderBy('appointment_time')->get();
-
+        $requests = DonateRequest::where('institution_id',$id)->whereIn('status',['Pending','Ongoing'])->orderBy('appointment_time')->get();
         // dd($donor_requests);
-    	return view('admin.donate',compact('donor_requests'));
+    	return view('admin.donate',compact('donor_requests','requests'));
     }
 
     public function setAppointment(Request $request)
@@ -179,3 +179,4 @@ class AdminDonateController extends Controller
 
     //
 }
+

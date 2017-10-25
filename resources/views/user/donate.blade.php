@@ -97,8 +97,6 @@
 								<option value="14:00">02:00 PM</option>
 								<option value="15:00">03:00 PM</option>
 								<option value="16:00">04:00 PM</option>
-								<option value="17:00">05:00 PM</option>
-								<option value="18:00">06:00 PM</option>
                                 @if ($errors->has('donatetime'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('donatetime') }}</strong>

@@ -46,8 +46,9 @@ class DonateController extends Controller
 	        {
 		        Log::create([
 		            'initiated_id' => Auth::user()->id,
+		            'initiated_type' => 'App\User',
 		            'reference_id' => $donateRequest->id,
-		            'referece_type' => 'App\DonateRequest',
+		            'reference_type' => 'App\DonateRequest',
 		            'id' => strtoupper(substr(sha1(mt_rand() . microtime()), mt_rand(0,35), 7)),
 		            'message' => 'You initiated a voluntary blood donation'
 	            ]);
