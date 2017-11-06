@@ -120,12 +120,12 @@ return [
             'icon' => 'user',
         ],
         [
-            'text' => 'Request',
+            'text' => 'Blood Request',
             'url'  => 'admin/request',
             'icon' => 'exclamation-triangle',
         ],
         [
-            'text' => 'Donate',
+            'text' => 'Blood Donations',
             'url'  => 'admin/donate',
             'icon' => 'plus',
         ],

@@ -21,7 +21,7 @@
   <div class="col-xs-12">
     <div class="box box-info  ">
       <div class="box-header">
-        <h3 class="box-title">Master List</h3>
+        <h3 class="box-title">Blood Donors</h3>
       </div>
       <!-- /.box-header -->
       <div class="nav-tabs-custom">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\DonateRequest;
+use App\Blacklist;
 use Auth;
 use App\Notifications\BloodRequestNotification;
 use App\Post;
@@ -99,7 +100,7 @@ class AdminDonateController extends Controller
 
     public function declineRequest(Request $request)
     {
-        dd($request->input());
+        // dd($request->input());
         $donateRequest = DonateRequest::find($request->input('id'));
         if($donateRequest)
         {
@@ -111,7 +112,16 @@ class AdminDonateController extends Controller
                 'reason' => $request->input('message'),
                 'status' => 'Declined',
                 'updates' => $updates]);
-
+            if($request->input('blacklist') == 'true')
+            {
+                $blacklist = Blacklist::create([
+                    'user_id' => $donateRequest->user->id,
+                    'reason' => $request->input('message'),
+                    'status' => 'Active'
+                    ]);
+                // dd($blacklist);
+            }
+            // dd('12345');
             //log
             Log::create([
             'initiated_id' => Auth::guard('web_admin')->user()->id,
@@ -130,8 +140,9 @@ class AdminDonateController extends Controller
 
             $user->notify(new BloodRequestNotification($class,$usersent,'We have declined your donation request.'));
         }
+
         return redirect('/admin/donate')->with('status','Successfully declined the donation request');
-        
+
     }
     public function getDonationRequest(Request $request, DonateRequest $request)
     {

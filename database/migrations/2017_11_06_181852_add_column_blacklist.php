@@ -13,8 +13,13 @@ class AddColumnBlacklist extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->integer('blacklist')->nullable();        
+        Schema::create('blacklist', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('user_id')->nullable(); 
+            $table->text('reason');
+            $table->string('status');
+            $table->timestamps();       
+
         });
     }
 
@@ -26,7 +31,7 @@ class AddColumnBlacklist extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            $table->dropColumn('blacklist');
         });
     }
 }

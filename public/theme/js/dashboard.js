@@ -173,4 +173,8 @@ $(function () {
   $("#logout").on('click',function (){
     $("#logout-form").submit();
   })
+
+  $(".something").on('change', function () {
+    var options = {"Opt": "val"};
+  })
 });

@@ -44,6 +44,10 @@
       <div class="tab-content"> 
       <div class="tab-pane active" id = "tab_1">
       <div id = "app" class="box-body table-responsive no-padding">
+        <div class ="col-md-12">
+        <h3>
+        Accepted
+        </h3>
         <table id = "pending_requests" class="table table-hover ">
           <thead>
             <tr>
@@ -60,6 +64,7 @@
           <tbody>
           @if($todayRequests)
             @foreach($todayRequests as $donor)
+              @if($donor->status == 'Ongoing')
               <tr>
               <td>{{ $donor->id }} </td>
           
@@ -96,10 +101,74 @@
               </td>
               @endif
               </tr>
+              @endif
             @endforeach
           @endif
           </tbody>
         </table>
+        </div>
+        <div class ="col-md-12">
+        Requesting
+        <table id = "today_requests" class="table table-hover ">
+          <thead>
+            <tr>
+                <th>Donate ID</th>
+                <th>Name</th>
+                <th>Blood Type</th>  
+                <th>Donate Type</th>
+                <th>Request ID</th>
+                <th>Appointment Date</th>
+                <th>Appointment Time</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+          <tbody>
+          @if($todayRequests)
+            @foreach($todayRequests as $donor)
+              @if($donor->status == 'Pending')
+              <tr>
+              <td>{{ $donor->id }} </td>
+          
+              <td>{{ $donor->user->fname.' '.$donor->user->lname }} </td>
+              <td>{{ $donor->user->bloodType}}</td>
+                @if($donor->appointment_time)
+              <td>VOLUNTARY</td>
+              <td>n/a</td>
+              <td>{{ $donor->appointment_time->format('F d Y')}}</td>
+              <td>{{ $donor->appointment_time->format(' h:i A')}}</td>
+                @else
+              <td>RESPONSE</td>
+              <td>{{$donor->bloodRequest->request->id}}</td>
+              <td>{{ $donor->created_at->format('F d Y') }}</td>
+              <td> ASAP</td>
+              @endif
+              @if($donor->status == 'Ongoing')
+              <td>
+              <a href ="{{url('admin/donate/'.$donor->id)}}">
+              <button type="button" value = "{{$donor->id}}" class="btn-s btn-info"><i class="fa fa-eye"></i></button>
+              </a>
+              <a href ="{{url('admin/donate/'.$donor->id.'/complete')}}">
+              <button type="button" value = "{{$donor->id}}" class="btn-s btn-success decl"><i class="fa fa-check" aria-hidden="true"></i></button>
+            </a>
+              </td>
+              @else
+              <td>
+              <a href ="{{url('admin/donate/'.$donor->id.'/view')}}">
+              <button type="button" value = "{{$donor->id}}" class="btn-s btn-info"><i class="fa fa-eye"></i></button>
+              </a>
+              <button type="button" value = "{{$donor->id}}" class="btn-s btn-warning decl setRequest"><i class="fa fa-clock-o" aria-hidden="true"></i></button>
+              <button type="button" value = "{{$donor->id}}" class="btn-s btn-success decl br acceptRequest"><i class="fa fa-check" aria-hidden="true"></i></button>
+              <button type="button" value = "{{$donor->id}}" class="btn-s btn-danger decl declineRequest"><i class="fa fa-times" aria-hidden="true"></i></button></button>
+              </td>
+              @endif
+              </tr>
+              @endif
+            @endforeach
+          @endif
+          </tbody>
+        </table>
+        </div>
+
       </div>      <!-- /.box-body --> 
       <!-- /.box-body -->
       </div>
@@ -391,7 +460,7 @@
                   <label class="control-label">Blacklist</label>
                   <div class="radio">
                     <label>
-                      <input type="radio" name="blacklist" value="true" required>
+                      <input type="radio" name="blacklist" value="true">
                       Yes
                     </label>
                   </div>
@@ -437,6 +506,8 @@
       $.fn.dataTable.moment( 'HH:MM AA' );  
 
       $('#pending_requests').DataTable( {
+        "bLengthChange": false,
+        "bInfo": false,
         "order": [[ 5, "asc" ]]
       });
       $('#ongoing_requests').DataTable();
@@ -444,6 +515,11 @@
         "order": [[ 5, "desc"]]
       });
       $('#declined_requests').DataTable({
+        "order": [[ 5, "desc"]]
+      });
+      $('#today_requests').DataTable({
+        "bLengthChange": false,
+        "bInfo": false,
         "order": [[ 5, "desc"]]
       });
       });
