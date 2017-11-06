@@ -10,7 +10,7 @@ use App\InstitutionAdmin;
 use App\BloodRequestDetail;
 use Illuminate\Support\Facades\Validator;
 use Auth;
-use App\BloodBag;
+use App\BloodType;
 
 use App\User;
 use App\DonateRequest;
@@ -53,8 +53,7 @@ class BloodPlusController extends Controller
             }
             $counter++;
         }
-
-        $pinnedPost = null;
+    $pinnedPost = null;
         
         $onGoingDonation = DonateRequest::where('initiated_by',Auth::user()->id)->whereIn('status',['Pending','Ongoing'])->get();
         if(count($onGoingDonation) == 1)
@@ -157,7 +156,7 @@ class BloodPlusController extends Controller
 
         $name = $request->input('bloodType');
 
-        $bloodBag = BloodBag::whereHas('bloodType', function ($query) use ($name)
+        $bloodBag = BloodType::whereHas('bloodCategory', function ($query) use ($name)
             {
                 $query->where('name',$name);
             })->where('category',$request->input('bloodCategory'))->first();

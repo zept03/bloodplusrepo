@@ -22,7 +22,7 @@ class DonateController extends Controller
     	{
 	    	$validator = Validator::make($request->all(), [
 	            'institution_id' => 'required',	
-	            'donatedate' => 'required|date|after:today',
+	            'donatedate' => 'required|date|after:yesterday',
 	            'donatetime' => 'required|date_format:H:i',
 	        ]);
 

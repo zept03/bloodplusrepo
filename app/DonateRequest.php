@@ -19,7 +19,7 @@ class DonateRequest extends Model
     ];
 
 	protected $fillable = [
-		'id','initiated_by','appointment_time','institution_id','status','updates'
+		'id','initiated_by','appointment_time','institution_id','status','updates','reason'
 	];
 
 	public function user() {

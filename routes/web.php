@@ -11,6 +11,12 @@ use App\BloodRequestDetail;
 use App\Post;
 use App\Notifications\BloodRequestNotification;
 use Carbon\Carbon;
+// use FCM;
+use LaravelFCM\Message\OptionsBuilder;
+use LaravelFCM\Message\PayloadDataBuilder;
+use LaravelFCM\Message\PayloadNotificationBuilder;
+use App\BloodType;
+use App\BloodCategory;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,9 +28,41 @@ use Carbon\Carbon;
 |
 */
 Route::get('/abcdefg',function (){
+
+    // $bloodType = BloodType::first();
+    // dd($bloodType->bloodCategory);
     // $exitCode = Artisan::call('cache:clear');
-    dd(Carbon::now()->timezone('Asia/Manila')->toDateTimeString());
-    $exitCode = Artisan::call('db:seed');
+    // dd(Carbon::now()->timezone('Asia/Manila')->toDateTimeString());
+    // $optionBuilder = new OptionsBuilder();
+    // $optionBuilder->setTimeToLive(60*20);
+    // $notificationBuilder = new PayloadNotificationBuilder('my title');
+    // $notificationBuilder->setBody('Hello world')
+    //                     ->setSound('default');
+    // $dataBuilder = new PayloadDataBuilder();
+    // $dataBuilder->addData(['a_data' => 'my_data']);
+
+    // $option = $optionBuilder->build();
+    // $notification = $notificationBuilder->build();
+    // $data = $dataBuilder->build();
+    // $token = "123456789";
+
+    // $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+    // dd($downstreamResponse);
+    // return response()->json($downstreamResponse);
+    // $downstreamResponse->numberSuccess();
+    // $downstreamResponse->numberFailure();
+    // $downstreamResponse->numberModification();
+
+    // //return Array - you must remove all this tokens in your database
+    // $downstreamResponse->tokensToDelete(); 
+
+    // //return Array (key : oldToken, value : new token - you must change the token in your database )
+    // $downstreamResponse->tokensToModify(); 
+
+    // //return Array - you should try to resend the message to the tokens in the array
+    // $downstreamResponse->tokensToRetry();
+
+    // $exitCode = Artisan::call('db:seed');
     // $exitCode = Artisan::call('config:cache');
     // $exitCode = Artisan::call('storage:link');
 });
@@ -50,7 +88,6 @@ Route::get('/contact', function () {
 });
 Route::post('/sendinquiry', 'UserController@sendInquiry');
 
-
 Auth::routes();
 
 Route::get('/inventory', 'UserController@inventory');
@@ -59,6 +96,9 @@ Route::get('/verifyaccountscreen', function() {
         return redirect('home');
     else
     return view('auth.verifyaccount');
+});
+Route::get('/unauthorize', function() {
+    return view('auth.unauthorize');
 });
 Route::post('/resendtoken', function() {
         $user = Auth::user();
@@ -174,12 +214,30 @@ Route::prefix('admin')->group(function () {
     Route::post('/campaign/create','AdminCampaignController@createCampaign');
     Route::get('/campaign/create','AdminCampaignController@showCreate');
     Route::get('/campaign/{campaign}','AdminCampaignController@viewCampaign');  
-    Route::get('/inventory','AdminInventoryController@index');
-    Route::post('/donate/finish','AdminDonateController@completeDonateRequest');
+    Route::get('/donate/{donate}/complete','AdminDonateController@completeDonateRequestView');
+    Route::post('/donate/{donate}/complete','AdminDonateController@completeDonateRequest');
+    Route::get('/donate/{donate}/view','AdminDonateController@getDonationRequest');
+    // Route::get('/donate/{donate}/accept','AdminDonateController@acceptDonationRequestView');
+    // Route::post('/donate/{donate}/accept','AdminDonateController@acceptRequest');
 
 
     Route::post('/request/{request}/bloodbag','AdminInventoryController@getBloodBagStatus');
+    Route::get('/inventory','AdminInventoryController@index');
+    Route::get('/bloodbags','AdminInventoryController@showBloodbags');
 
+    Route::get('/bloodbags/{bloodbag}/screen','AdminInventoryController@showSingleStatustoStagedView');
+    Route::post('/bloodbags/{bloodbag}/screen','AdminInventoryController@setSingleStatusToStaged');
+
+    Route::get('/bloodbags/screen','AdminInventoryController@showStatustoStagedView');
+    Route::post('/bloodbags/screen','AdminInventoryController@setStatusToStaged');
+
+    Route::get('/bloodbags/stagedbloodbag','AdminInventoryController@showStagedBloodbags');
+    //view sa staged single blood bag nga pending gipili
+    Route::get('/bloodbags/{staged}/stage','AdminInventoryController@showSingleCompleteScreenedBlood');
+    Route::post('/bloodbags/{staged}/stage','AdminInventoryController@completeSingleScreenedBlood');
+
+    Route::get('/bloodbags/stage','AdminInventoryController@showCompleteScreenedBlood');
+    Route::post('/bloodbags/stage','AdminInventoryController@completeScreenedBlood');
 
     });
 });
@@ -187,6 +245,10 @@ Route::prefix('admin')->group(function () {
 
 Route::group(['prefix' => 'bpadmin', 'middleware' => 'bpadmin'], function () 
 {
+    Route::get('/', function () {
+        return view('bpadmin.index');
+    });
+    Route::get('/institutions','Super\InstitutionsController@getInstitutions');
     //connected bloodbanks/status etc
     // Route::get('/','Super\SuperAdminController@index');
     //add bloodbank (with their credentials and then add 1 account)

@@ -3,13 +3,13 @@
 @section('title', 'Request')
 
 @section('content_header')
-      <h1>
+     <!--  <h1>
       &nbsp
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li class="active">Request</li>
-      </ol>
+      </ol> -->
 @stop
 
 @section('content') 
@@ -29,7 +29,7 @@
   <div class="col-xs-12">
     <div class="box box-info  ">
       <div class="box-header">
-        <h3 class="box-title">Request</h3>
+        <h3 class="box-title">Blood requests</h3>
       </div>
       <!-- /.box-header -->
       <div class="box-body">
@@ -67,9 +67,9 @@
               <td>{{ $request->details->blood_category.' '.$request->details->blood_type }} </td>
               <td>{{ $request->details->units }} </td>
               <td>{{ $request->created_at->format(' jS \\of F Y')}} </td>
-              <td><button type="button" value = "{{$request->id}}" class="btn-xs btn-danger decl viewRequest" data-toggle="modal" data-target="#viewModal" >View</button>
-            <button type="button" value = "{{$request->id}}" data-type = "request" class="btn-xs btn-danger decl br acceptRequest">Accept</button>
-            <button type="button" value = "{{$request->id}}" class="btn-xs btn-danger decl declineRequest">Decline</button></td>
+              <td><button type="button" value = "{{$request->id}}" class="btn-s btn-info decl viewBloodRequest" data-toggle="modal" data-target="#viewModal"><i class="fa fa-eye"></i></button>
+            <button type="button" value = "{{$request->id}}" data-type = "request" class="btn-s btn-success decl br acceptRequest"><i class="fa fa-check" aria-hidden="true"></i></button>
+            <button type="button" value = "{{$request->id}}" class="btn-s btn-danger decl declineRequest"><i class="fa fa-times" aria-hidden="true"></i></button></td>
             </tr>
             @endif
           @endforeach 
@@ -103,14 +103,14 @@
               <td> {{$request->user->fname.' '.$request->user->lname}} </td>
               <td>{{ $request->details->blood_category.' '.$request->details->blood_type }} </td>
               <td>{{ $request->details->units }} </td>
-              <td> {{ $request->details->bloodBag->qty}} </td>
+              <td> {{ $request->details->bloodType->qty}} </td>
               <td>{{count($request->donors)}}</td>
               <td>{{ $request->created_at->format(' jS \\of F Y')}} </td>
 
-             <td><button type="button" value = "{{$request->id}}" class="btn-xs btn-danger decl viewRequest" data-toggle="modal" data-target="#viewModal">View</button>
-             @if($request->details->bloodBag->qty >= $request->details->units)
-             <button type="button" value = "{{$request->id}}" class="btn-xs btn-danger decl claimRequest">Claim</button>
-            <button type="button" value = "{{$request->id}}" class="btn-xs btn-danger decl completeRequest">Complete</button>@endif
+             <td><button type="button" value = "{{$request->id}}" class="btn-s btn-info decl viewBloodRequest" data-toggle="modal" data-target="#viewModal"><i class="fa fa-eye"></i></button>
+             <button type="button" value = "{{$request->id}}" class="btn-s btn-warning claimRequest"><i class="fa fa-gift" aria-hidden="true"></i></button>
+             @if($request->details->bloodType->qty >= $request->details->units)
+            <button type="button" value = "{{$request->id}}" class="btn-s btn-success decl completeRequest"><i class="fa fa-check" aria-hidden="true"></i></button>@endif
             </td>
             </tr>
             @endif
@@ -143,7 +143,7 @@
               <td>{{ $request->details->blood_type }} </td>
               <td>{{ $request->details->units }} </td>
               <td>{{ $request->created_at->format(' jS \\of F Y')}} </td>
-              <td><button type="button" value = "{{$request->id}}" class="btn-xs btn-danger decl viewRequest" data-toggle="modal" data-target="#viewModal">View</button>
+              <td><button type="button" value = "{{$request->id}}" class="btn-s btn-info decl viewBloodRequest" data-toggle="modal" data-target="#viewModal"><i class="fa fa-eye"></i></button>
               </td>
             </tr>
             @endif
@@ -177,7 +177,7 @@
               <td>{{ $request->details->blood_type }} </td>
               <td>{{ $request->details->units }} </td>
               <td>{{ $request->created_at->format(' jS \\of F Y')}} </td>
-              <td><button type="button" value = "{{$request->id}}" class="btn-xs btn-danger decl viewRequest" data-toggle="modal" data-target="#viewModal">View</button>
+              <td><button type="button" value = "{{$request->id}}" class="btn-s btn-info decl viewBloodRequest" data-toggle="modal" data-target="#viewModal"><i class="fa fa-eye" aria-hidden="true"></i></button>
             </td>
             </tr>
             @endif
@@ -202,7 +202,7 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Request for blood</h4>
+        <h4 class="modal-title">Blood Request Form</h4>
       </div>
       <div class="modal-body">
         <div id = "view" class="bootstrap-timepicker">
@@ -239,8 +239,8 @@
           </div>
                 <!-- /.form group -->
         </div>
-      <div class="modal-footer" style="margin-top:-1%">
-        <button type="button" data-dismiss="modal" class="btn btn-outline">Close</button>
+      <div class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn btn-danger">Close</button>
       </div>
       </div>
     </div>
@@ -264,9 +264,9 @@
             </div>
           </div>
         </div>
-      <div class="modal-footer" style="margin-top:-1%">
-        <input type="submit" name = "submitRequest" class="btn btn-outline" value="Notify">
-        <button type="button" data-dismiss="modal" class="btn btn-outline">Close</button>
+      <div class="modal-footer">
+        <input type="submit" name = "submitRequest" class="btn btn-danger" value="Notify">
+        <button type="button" data-dismiss="modal" class="btn btn-danger">Close</button>
       </div>
 
       </form>
@@ -291,16 +291,16 @@
             <label style ="margin-left:3%" class="control-label">Terms:</label>
             <br>
             <br>
-            <p style ="margin-left:3%">You can proceed to accept via notify users, this would notify  to all your available donors. <br> Or reply to the requestor for updates.</p><br>
+            <p style ="margin-left:3%;color: black">You can proceed to accept via notify users, this would notify  to all your available donors. <br> Or reply to the requestor for updates.</p><br>
             <br>
-            <p style ="margin-left:3%" id = "recommended"></p>
+            <p style ="margin-left:3%;color: black" id = "recommended"></p>
             </div>
           </div>
         </div>
-      <div class="modal-footer" style="margin-top:-1%">
-        <input type="submit" name = "submitRequest" class="btn btn-outline" value="Notify">
-        <button type ="button" class="btn btn-outline replybtn" data-dismiss="modal">Reply</button> 
-        <button type="button" data-dismiss="modal" class="btn btn-outline">Close</button>
+      <div class="modal-footer">
+        <input type="submit" name = "submitRequest" class="btn btn-danger" value="Notify">
+        <button type ="button" class="btn btn-danger replybtn" data-dismiss="modal">Reply</button> 
+        <button type="button" data-dismiss="modal" class="btn btn-danger">Close</button>
       </div>
       </form>
       </div>
@@ -325,9 +325,9 @@
               </div>
           </div>
         </div>
-      <div class="modal-footer" style="margin-top:-1%">
-        <input type="submit" name = "submitRequest" class="btn btn-outline" value="Accept and Send">
-        <button type="button" data-dismiss="modal" class="btn btn-outline">Close</button>
+      <div class="modal-footer">
+        <input type="submit" name = "submitRequest" class="btn btn-danger" value="Accept and Send">
+        <button type="button" data-dismiss="modal" class="btn btn-danger">Close</button>
       </div>
       </form>
       </div>
@@ -341,7 +341,7 @@
         <span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">Decline Request Form</h4>
       </div>
-      <form id ="deleteForm" class="form-horizontal" role="form" method="POST" action="{{ url('/admin/donate/delete') }}"> 
+      <form id ="deleteForm" class="form-horizontal" role="form" method="POST" action="{{ url('/admin/request/delete') }}"> 
       <div class="modal-body">
         <div id = "view" class="bootstrap-timepicker"> 
             {!! csrf_field() !!}
@@ -354,13 +354,13 @@
             <br>
             <br>
 
-            <p style ="margin-left:3%">Upon deletion of this request, it will no longer be able to be processed.</p>
+            <p style ="margin-left:3%;color: black">Upon deletion of this request, it will no longer be able to be processed.</p>
             </div>
           </div>
         </div>
-      <div class="modal-footer" style="margin-top:-1%">
-        <input type="submit" name = "submitRequest" class="btn btn-outline" value="Submit">
-        <button type="button" data-dismiss="modal" class="btn btn-outline">Close</button>
+      <div class="modal-footer">
+        <input type="submit" name = "submitRequest" class="btn btn-danger" value="Submit">
+        <button type="button" data-dismiss="modal" class="btn btn-danger">Close</button>
       </div>
       </form>
       </div>
@@ -380,17 +380,19 @@
             {!! csrf_field() !!}
             <input type="hidden" id ="acceptId" name ="id" />
             <div class="form-group">
-            <label class="control-label">Terms:</label>
-            <br>
+            <label style ="margin-left:3%" class="control-label">Blood Bag Id:</label>
             <br>
 
-            <p style ="margin-left:3%">Complete this blood request form and mark it as Done!</p>
+            <label style ="margin-left:3%" class="control-label">Terms:</label>
+            <br>
+
+            <p style ="margin-left:3%;color: black">Complete this blood request form and mark it as Done!</p>
             </div>
           </div>
         </div>
-      <div class="modal-footer" style="margin-top:-1%">
-        <input type="submit" name = "submitRequest" class="btn btn-outline" value="Complete">
-        <button type="button" data-dismiss="modal" class="btn btn-outline">Close</button>
+      <div class="modal-footer">
+        <input type="submit" name = "submitRequest" class="btn btn-danger" value="Complete">
+        <button type="button" data-dismiss="modal" class="btn btn-danger">Close</button>
       </div>
       </form>
       </div>

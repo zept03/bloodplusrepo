@@ -14,6 +14,6 @@ class DatabaseSeeder extends Seeder
         // $this->call(ReactionsTableSeeder::class);
         // $this->call(BloodBagTableSeeder::class);
         // $this->call(BloodTypeTableSeeder::class);
-        $this->call(UserTableSeeder::class);
+        // $this->call(UserTableSeeder::class);
     }
 }

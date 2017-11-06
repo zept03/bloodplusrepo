@@ -11,7 +11,8 @@ use App\Log;
 use App\Post;
 use Auth;
 use App\BloodRequestDetail;
-use App\BloodBag;
+use App\BloodCategory;
+use App\bloodType;
 use Carbon\Carbon;
 use App\InstitutionAdmin;
 use App\BloodRequestDonor;
@@ -55,7 +56,7 @@ class BloodRequestController extends Controller
         $name = $request->input('bloodType');
 
 
-        $bloodBag = BloodBag::whereHas('bloodType', function ($query) use ($name)
+        $bloodBag = BloodType::whereHas('bloodCategory', function ($query) use ($name)
             {
                 $query->where('name',$name);
             })->where('category',$request->input('bloodCategory'))->first();

@@ -64,6 +64,7 @@ class Kernel extends HttpKernel
         'admin_guest' => \App\Http\Middleware\RedirectIfAdminAuthenticated::class,
         'verified' => \App\Http\Middleware\Verified::class,
         'preAuth' => \App\Http\Middleware\PreAuth::class,
-        'userResolver' => \App\Http\Middleware\UserResolver::class
+        'userResolver' => \App\Http\Middleware\UserResolver::class,
+        'bpadmin' => \App\Http\Middleware\BpAdminAuth::class
     ];
 }

@@ -10,6 +10,10 @@ use App\Notifications\BloodRequestNotification;
 use App\Post;
 use App\Log;
 use App\BloodType;
+use \DB;
+use App\BloodInventory;
+use App\ScreenedBlood;
+
 class AdminDonateController extends Controller
 {
 
@@ -17,10 +21,22 @@ class AdminDonateController extends Controller
     {
    		$id = Auth::guard('web_admin')->user()->institute->id;
 
-        $donor_requests = DonateRequest::where('institution_id',$id)->orderBy('appointment_time')->get();
-        $requests = DonateRequest::where('institution_id',$id)->whereIn('status',['Pending','Ongoing'])->orderBy('appointment_time')->get();
+        $donor_requests = DonateRequest::where('institution_id',$id)->where(function($query) 
+        {
+            $query->whereIn('status',['Ongoing','Pending'])->whereDate('appointment_time', '!=',DB::raw('CURDATE()'));
+        })->orderBy('appointment_time')->get();
         // dd($donor_requests);
-    	return view('admin.donate',compact('donor_requests','requests'));
+        $todayRequests = DonateRequest::where('institution_id',$id)->where(function ($query) {
+            $query->whereIn('status',['Pending','Ongoing'])->whereNull('appointment_time');
+        })->orWhere(function ($query) {
+            $query->whereIn('status',['Pending','Ongoing'])->whereDate('appointment_time',DB::raw('CURDATE()'));
+        })->orderBy('appointment_time')->get();
+        // dd($todayRequests);
+        $doneRequests = DonateRequest::where('institution_id',$id)->where('status','Done')->get();
+        $cancelledRequests = DonateRequest::where('institution_id',$id)->where('status','Declined')->get();
+
+        // dd($donor_requests);
+    	return view('admin.donate',compact('donor_requests','todayRequests','doneRequests','cancelledRequests','donor_requests'));
     }
 
     public function setAppointment(Request $request)
@@ -47,9 +63,10 @@ class AdminDonateController extends Controller
     	return redirect('/admin/donate')->with('status','Sent notification to user for the change of time');
     }
 
-    public function acceptRequest(Request $request)
+    public function acceptRequest(Request $request, DonateRequest $donateRequest)
     {
         $donateRequest = DonateRequest::find($request->input('id'));
+        // dd($donateRequest);
         $updates = $donateRequest->updates;
         // dd($updates);
         $updates[] = "Philippine Red Cross accepted your blood donation request.";
@@ -79,21 +96,71 @@ class AdminDonateController extends Controller
         // dd($donateRequest->updates);
         return redirect('/admin/donate')->with('status','Successfully accepted request');
     }
-    public function completeDonateRequest(Request $request)
+
+    public function declineRequest(Request $request)
     {
-        // dd($request);
+        dd($request->input());
         $donateRequest = DonateRequest::find($request->input('id'));
-        // dd($donateRequest->user);
-        // $donateRequest = DonateRequest::firstOrFail();
+        if($donateRequest)
+        {
+            // dd($donateRequest);
+
+            $updates = $donateRequest->updates;
+            $updates[] = "Declined the donation request.";
+            $donateRequest->update([
+                'reason' => $request->input('message'),
+                'status' => 'Declined',
+                'updates' => $updates]);
+
+            //log
+            Log::create([
+            'initiated_id' => Auth::guard('web_admin')->user()->id,
+            'initiated_type' => 'App\InstitutionAdmin',
+            'reference_type' => 'App\DonateRequest',
+            'reference_id' => $donateRequest->id,
+            'id' => strtoupper(substr(sha1(mt_rand() . microtime()), mt_rand(0,35), 7)),
+            'message' => 'You have declined a donate request'
+            ]);
+            $user = $donateRequest->user;
+            $class = array("class" => "App\DonateRequest",
+                "id" => $donateRequest->id,
+                "time" => $donateRequest->created_at->toDateTimeString());
+            $usersent = array("name" => Auth::guard('web_admin')->user()->institute->name(),
+                    "picture" => Auth::guard('web_admin')->user()->institute->picture());
+
+            $user->notify(new BloodRequestNotification($class,$usersent,'We have declined your donation request.'));
+        }
+        return redirect('/admin/donate')->with('status','Successfully declined the donation request');
+        
+    }
+    public function getDonationRequest(Request $request, DonateRequest $request)
+    {
+        //show interview questions
+
+        //terms and agreement
+
+        //
+    }
+
+    public function completeDonateRequestView(Request $request, DonateRequest $donate)
+    {
+        return view('admin.completedonation',compact('donate'));
+    }
+    public function completeDonateRequest(Request $request, DonateRequest $donate)
+    {
+        $donateRequest = $donate;
+
+        //complete
         $updates = $donateRequest->updates;
         $updates[] = "Completed your blood donation.";
         $donateRequest->update([
             'status' => 'Done',
-            'updates' => $updates
+            'updates' => $updates,
+            'updated_at' => Carbon::now()
             ]);
         $donateRequest->bloodrequest()->update([
-        'status' => 'Done']);
-        // //post create
+        'status' => 'Done',
+        'updated_at' => Carbon::now()]);
 
         Post::create([
                     'id' => strtoupper(substr(sha1(mt_rand() . microtime()), mt_rand(0,35), 7)),
@@ -130,53 +197,32 @@ class AdminDonateController extends Controller
 
         $user->notify(new BloodRequestNotification($class,$usersent,'We have completed your blood donation. Thank you for donating.'));
         
-        // //increase inventory of blood
-        $bloodType = BloodType::where('name', $donateRequest->user->bloodType)->first();
-        foreach($bloodType->bloodBags as $bloodBag)
-        {
-            $qty = $bloodBag->qty;
-            $bloodBag->update(['qty' => $qty + 1]);
-        }
+        // stage the bags
 
-        return redirect('/admin/donate')->with('status','Successfully you completed donate request');
+        $screenedBlood = ScreenedBlood::create([
+        'id' => strtoupper(substr(sha1(mt_rand() . microtime()), mt_rand(0,35), 7)),
+        'donate_id' => $donateRequest->id,
+        'serial_number' => $request->input('serial_number'),
+        'bag_type' => $request->input('bag_type'),
+        'bag_component' => $request->input('bag_component'),
+        'status' => 'Pending'
+        ]);
 
-    }
+        return redirect('/admin/donate')->with('status','You successfully completed the blood donation. You can now begin to screen the blood bag');
 
-    public function declineRequest(Request $request)
+    }    //
+    public function acceptDonationRequestView(Request $request, DonateRequest $donate)
     {
-        $donateRequest = DonateRequest::find($request->input('id'));
-        if($donateRequest)
-        {
-            // dd($donateRequest);
-
-            $updates = $donateRequest->updates;
-            $updates[] = "Declined the donation request.";
-            $donateRequest->update([
-                'status' => 'Declined',
-                'updates' => $updates]);
-
-            //log
-            Log::create([
-            'initiated_id' => Auth::guard('web_admin')->user()->id,
-            'initiated_type' => 'App\InstitutionAdmin',
-            'reference_type' => 'App\DonateRequest',
-            'reference_id' => $donateRequest->id,
-            'id' => strtoupper(substr(sha1(mt_rand() . microtime()), mt_rand(0,35), 7)),
-            'message' => 'You have declined a donate request'
-            ]);
-            $user = $donateRequest->user;
-            $class = array("class" => "App\DonateRequest",
-                "id" => $donateRequest->id,
-                "time" => $donateRequest->created_at->toDateTimeString());
-            $usersent = array("name" => Auth::guard('web_admin')->user()->institute->name(),
-                    "picture" => Auth::guard('web_admin')->user()->institute->picture());
-
-            $user->notify(new BloodRequestNotification($class,$usersent,'We have declined your donation request.'));
-        }
-        return redirect('/admin/donate')->with('status','Successfully declined the donation request');
-        
+        //if dli karon na donation, accept lng dayon 
+        //return view to admin/donate with notification
+ 
+        return view('admin.acceptdonation',compact('donate'));
     }
 
-    //
+    public function acceptDonationRequest(Request $request, DonateRequest $donate)
+    {
+
+    }
+
 }
 

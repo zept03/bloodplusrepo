@@ -22,7 +22,7 @@ class BloodRequest extends Model
     ];
 
     protected $fillable = [
-        'id','patient_name','diagnose','institution_id','status','initiated_by','updates'
+        'id','patient_name','diagnose','institution_id','status','initiated_by','updates','reason'
     ];
 
     public function institute() {

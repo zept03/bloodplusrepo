@@ -81,4 +81,9 @@ class User extends Authenticatable
     {
     return $this->morphedByMany('App\Institution', 'follower','followers')->wherePivot('status', 1)->withTimestamps();
     }
+
+    public function super()
+    {
+        return $this->hasOne('App\God', 'user_id','id');
+    }
 }

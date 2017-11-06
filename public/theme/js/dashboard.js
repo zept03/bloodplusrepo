@@ -8,7 +8,7 @@ $(function () {
     $("#setTime").modal();
   });
 
-	$(".viewRequest").on("click",function () {
+	$(".viewBloodRequest").on("click",function () {
 	var first = $(this).val();
   var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 	$.ajax({
@@ -26,12 +26,20 @@ $(function () {
           $("#view input[name=blood_category]").val(request.details.blood_category);
           $("#view input[name=units]").val(request.details.units);
           var updates = request.updates;
+          // console.log(updates);
           $("#updates").text("");
-          for(var i = 0;i < updates.length; i++)
+          var string = "Waiting for institution to accept the blood request";
+          var li = "<li>"+string+"</li>";
+
+          $("#updates").append(li);
+          if(updates)
           {
-            var li = "<li>"+updates[i]+"</li>";
-            $("#updates").append(li);
-            // console.log(updates[i]);
+            for(var i = 0;i < updates.length; i++)
+            {
+              var li = "<li>"+updates[i]+"</li>";
+              $("#updates").append(li);
+              // console.log(updates[i]);
+            }
           }
         },
         error: function() {
@@ -43,16 +51,33 @@ $(function () {
   $("#checkAll").change( function() {
     // console.log("lmai");
     if($(this).is(':checked')) {
-      $('input[name=checkedDonors]').each(function(){ this.checked = true; });
+      $('input[name=bloodbags]').each(function(){ this.checked = true; });
         }
     else
-      $('input[name=checkedDonors]').each(function(){ this.checked = false; });
+      $('input[name=bloodbags]').each(function(){ this.checked = false; });
   });
   $(".claimRequest").on("click",function () {
     // console.log($(this).val());
     // console.log('abc');
-    $("#claimForm input[name=id]").val($(this).val()); 
-    $("#claimModal").modal();
+    alert($(this).val());
+    var $csrf_token = $('meta[name="csrf-token"]').attr('content');
+    $.ajax({
+          type: 'POST',
+          url: '/bloodplusrepo/public/admin/request/claim',
+          data: {
+            '_token': $csrf_token,
+            'acceptId': $(this).val()
+          },
+          success: function(response)
+          {
+            console.log(response);
+          },
+          error: function(a){
+          console.log(a.errorThrown);
+          }
+      });
+    // $("#claimForm input[name=id]").val($(this).val()); 
+    // $("#claimModal").modal();
   });
   $(".acceptRequest").on("click",function () {
     // console.log($(this).val());

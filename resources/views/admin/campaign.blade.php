@@ -3,13 +3,13 @@
 @section('title', 'Campaign')
 
 @section('content_header')
-      <h1>
+      <!-- <h1>
       &nbsp
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li class="active">Campaign</li>
-      </ol>
+      </ol> -->
 @stop
 
 @section('content') 
@@ -63,7 +63,7 @@
                 <td>{{$campaign->date_start->format('F jS, Y')}}</td>
                 <td>{{$campaign->date_start->format('h:i A')}}</td>
                 <td>{{$campaign->date_end->format('h:i A')}}</td>
-                <td><button type="button" value = "{{$campaign->id}}" class="btn-xs btn-danger decl viewCampaign">View</button></td>
+                <td><button type="button" value = "{{$campaign->id}}" class="btn-xs btn-info decl viewCampaign"><i class="fa fa-eye"></i></button></td>
               </tr>
             @endif
           @endforeach
@@ -94,7 +94,7 @@
                 <td>{{$campaign->date_start->format('F d Y')}}</td>
                 <td>{{$campaign->date_start->format('h:i A')}}</td>
                 <td>{{$campaign->date_end->format(' h:i A')}}</td>
-                <td><button type="button" value = "{{$campaign->id}}" class="btn-xs btn-danger decl viewCampaign">View</button></td>
+                <td><button type="button" value = "{{$campaign->id}}" class="btn-xs btn-info decl viewCampaign"><i class="fa fa-eye"></i></button></td>
               </tr>
             @endif
           @endforeach
@@ -123,7 +123,7 @@
                 <td>{{$campaign->address['place']}}</td>
                 <td>{{$campaign->date_start->format(' jS \\of F Y H:i A')}}</td>
                 <td>{{$campaign->date_end->format(' jS \\of F Y h:i A')}}</td>
-                <td><button type="button" value = "{{$campaign->id}}" class="btn-xs btn-danger decl viewCampaign">View</button></td>
+                <td><button type="button" value = "{{$campaign->id}}" class="btn-xs btn-info decl viewCampaign"><i class="fa fa-eye"></i></button></td>
               </tr>
             @endif
           @endforeach

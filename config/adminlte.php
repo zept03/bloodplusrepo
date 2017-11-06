@@ -135,9 +135,22 @@ return [
             'icon' => 'bell',
         ],
         [
-            'text' => 'Inventory',
-            'url'  => 'admin/inventory',
+            'text' => 'Blood Stocks',
             'icon' => 'gavel',
+            'submenu' => [
+                [
+                    'text' => 'Inventory',
+                    'url'  => 'admin/inventory'
+                ],
+                [
+                    'text' => 'To be screened',
+                    'url'  => 'admin/bloodbags',
+                ],
+                [
+                    'text' => 'Screened Blood Bag',
+                    'url' => 'admin/bloodbags/stagedbloodbag',
+                ]
+            ]
         ]
     
         // [

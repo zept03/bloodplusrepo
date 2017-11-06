@@ -5,13 +5,12 @@
 @section('title', 'Donors')
 
 @section('content_header')
-      <h1>
-        Blood Donors
+      <!-- <h1>&nbsp
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li class="active">Donors</li>
-      </ol>
+      </ol> -->
 @stop
 
 @section('content') 

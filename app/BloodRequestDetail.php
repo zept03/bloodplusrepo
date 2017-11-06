@@ -16,8 +16,8 @@ class BloodRequestDetail extends Model
     	return $this->belongsTo('App\BloodRequest','blood_request_id');
     }
 
-    public function bloodBag() {
-    	return $this->hasOne('App\BloodBag','id','bloodbag_id');
+    public function bloodType() {
+    	return $this->hasOne('App\BloodType','id','bloodbag_id');
     }
 
     public function blood() {

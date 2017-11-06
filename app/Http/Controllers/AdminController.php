@@ -49,7 +49,7 @@ class AdminController extends Controller
     }
 
     public function donors() {
-        $tmpDonors = User::where('status','active')->get();
+        $tmpDonors = Auth::guard('web_admin')->user()->institute->followers;
         $donors = array();
         $count = 0;
         foreach($tmpDonors as $donor)
@@ -167,7 +167,7 @@ class AdminController extends Controller
             'reference_type' => 'App\BloodRequest',
             'reference_id' => $bloodRequest->id,
             'id' => strtoupper(substr(sha1(mt_rand() . microtime()), mt_rand(0,35), 7)),
-            'message' => 'You just accepted a blood request!'
+            'message' => Auth::guard('web_admin')->user()->institute->name().' just accepted a blood request!'
             ]);
         // dd('12345');
         $user = $bloodRequest->user;
@@ -217,6 +217,7 @@ class AdminController extends Controller
     public function claimRequest(Request $request)
     {
         // dd(Carbon::now()->toDateTimeString());
+        return response()->json($request->input());
         $bloodRequest = BloodRequest::find($request->input('id'));
         $user = $bloodRequest->user;
         $class = array("class" => "App\BloodRequest",
@@ -232,7 +233,8 @@ class AdminController extends Controller
     {
         $bloodRequest = BloodRequest::find($request->input('id'));
         $updates = $bloodRequest->updates;              
-        $updates[] = 'The blood request is completed and finished';    
+        $updates[] = 'The blood request is completed and finished';   
+         
         $bloodRequest->update([
             'status' => 'Done',
             'updates' => $updates
@@ -258,13 +260,12 @@ class AdminController extends Controller
             'message' => 'You just succesfully completed a blood request transaction!'
             ]);
 
-        //minus bloodbank
 
-        $bloodBag = $bloodRequest->details->bloodBag;
-        // dd($bloodRequest->details->units);
-        $bloodBag->update(['qty' => $bloodBag->qty - $bloodRequest->details->units]);
+        //get blood bag given the blood bag serial number
+        // make it used 
+        // $bloodBag = $bloodRequest->details->bloodType;
+        // $bloodBag->update(['qty' => $bloodBag->qty - $bloodRequest->details->units]);
 
-        // dd($bloodBag);
         $user = $bloodRequest->user;
         $class = array("class" => "App\BloodRequest",
             "id" => $bloodRequest->id,
@@ -282,10 +283,13 @@ class AdminController extends Controller
     public function deleteRequest(Request $request)
     {
         $bloodRequest = BloodRequest::find($request->input('id'));
+        // dd($request->input());
         $updates = $bloodRequest->updates;
-        $updates[] = 'Declined for the reason of: "'.$request->input('message').'"';
+        $updates[] = $bloodRequest->institute->name().' has declined your blood request';
+        // dd($updates);
         $bloodRequest->update([
             'status' => 'Declined',
+            'reason' => $request->input('message'),
             'updates' => $updates
             ]);
 
@@ -368,11 +372,11 @@ class AdminController extends Controller
         //     'reference_type' => 'App\BloodRequest',
         //     'reference_id' => $bloodRequest->id
         //     ]);
-        if($bloodRequest->details->units >= $bloodRequest->details->bloodBag->qty)
-        {
-            $bloodBag = $bloodRequest->details->bloodBag;
-            $bloodBag->update(['qty' => $bloodBag->qty - $bloodRequest->details->units]);
-        }
+        // if($bloodRequest->details->units >= $bloodRequest->details->bloodBag->qty)
+        // {
+        //     $bloodBag = $bloodRequest->details->bloodBag;
+        //     $bloodBag->update(['qty' => $bloodBag->qty - $bloodRequest->details->units]);
+        // }
 
 
         Log::create([   

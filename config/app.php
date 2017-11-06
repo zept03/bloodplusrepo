@@ -164,6 +164,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         'Davibennun\LaravelPushNotification\LaravelPushNotificationServiceProvider',
+        LaravelFCM\FCMServiceProvider::class,
         // Barryvdh\Cors\ServiceProvider::class,
         JeroenNoten\LaravelAdminLte\ServiceProvider::class,
         /*
@@ -229,6 +230,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'FCM'      => LaravelFCM\Facades\FCM::class,
+        'FCMGroup' => LaravelFCM\Facades\FCMGroup::class, // Optional
         'PushNotification' => 'Davibennun\LaravelPushNotification\Facades\PushNotification'
     ],
 

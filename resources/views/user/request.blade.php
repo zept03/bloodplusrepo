@@ -94,7 +94,7 @@
 							<label>Blood Category</label>
 								<select class ="form-control" name ="bloodCategory" required>
 								<option value = "" disabled hidden selected>Select Blood Category</option>
-								<option value="White Blood">White Blood</option>
+								<option value="Whole Blood">Whole Blood</option>
 								<option value="Platelet">Platelets</option>
 								<option value="Washed RBC">Washed RBC</option>
 								<option value="Packed RBC">Packed RBC</option>

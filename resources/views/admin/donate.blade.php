@@ -3,14 +3,15 @@
 @section('title', 'Donate')
 
 @section('content_header')
-      <h1>
+      <!-- <h1>
       &nbsp
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li class="active">Donate</li>
       </ol>
-@stop
+      -->
+@stop 
 
 @section('content') 
 @if (session('status'))
@@ -29,16 +30,16 @@
   <div class="col-xs-12">
     <div class="box box-info  ">
       <div class="box-header">
-        <h3 class="box-title">Donate</h3>
+        <h3 class="box-title">Blood donations</h3>
       </div>
       <!-- /.box-header -->
       <div class="box-body">
       <div class="nav-tabs-custom">
       <ul class="nav nav-tabs">
-        <li class="active"><a href="#tab_1" data-toggle="tab">Pending</a></li>
-        <li><a href="#tab_2" data-toggle="tab">Accepted</a></li>
-        <li><a href="#tab_3" data-toggle="tab">Done</a></li>
-        <li><a href="#tab_4" data-toggle="tab">Decline</a></li>
+        <li class="active"><a href="#tab_1" data-toggle="tab">Today</a></li>
+        <li><a href="#tab_2" data-toggle="tab">Upcoming</a></li>
+        <li><a href="#tab_4" data-toggle="tab">Done</a></li>
+        <li><a href="#tab_5" data-toggle="tab">Decline</a></li>
       </ul>
       <div class="tab-content"> 
       <div class="tab-pane active" id = "tab_1">
@@ -51,15 +52,14 @@
                 <th>Blood Type</th>  
                 <th>Donate Type</th>
                 <th>Request ID</th>
-                <th>Date Requested</th>
+                <th>Appointment Date</th>
                 <th>Appointment Time</th>
                 <th>Actions</th>
             </tr>
         </thead>
           <tbody>
-          @if($requests)
-            @foreach($requests as $donor)
-              @if($donor->status == 'Pending')
+          @if($todayRequests)
+            @foreach($todayRequests as $donor)
               <tr>
               <td>{{ $donor->id }} </td>
           
@@ -76,15 +76,26 @@
               <td>{{ $donor->created_at->format('F d Y') }}</td>
               <td> ASAP</td>
               @endif
+              @if($donor->status == 'Ongoing')
               <td>
-              <button type="button" value = "{{$donor->id}}" class="btn-xs btn-danger decl acceptRequest" >Accept</button>
-              @if($donor->appointment_time)
-              <button type="button" value = "{{$donor->id}}" class="btn-xs btn-danger decl setRequest">Reschedule</button>
-              @endif
-              <button type="button" value = "{{$donor->id}}" class="btn-xs btn-danger decl declineRequest">Decline</button>
+              <a href ="{{url('admin/donate/'.$donor->id)}}">
+              <button type="button" value = "{{$donor->id}}" class="btn-s btn-info"><i class="fa fa-eye"></i></button>
+              </a>
+              <a href ="{{url('admin/donate/'.$donor->id.'/complete')}}">
+              <button type="button" value = "{{$donor->id}}" class="btn-s btn-success decl"><i class="fa fa-check" aria-hidden="true"></i></button>
+            </a>
               </td>
-              </tr>
+              @else
+              <td>
+              <a href ="{{url('admin/donate/'.$donor->id.'/view')}}">
+              <button type="button" value = "{{$donor->id}}" class="btn-s btn-info"><i class="fa fa-eye"></i></button>
+              </a>
+              <button type="button" value = "{{$donor->id}}" class="btn-s btn-warning decl setRequest"><i class="fa fa-clock-o" aria-hidden="true"></i></button>
+              <button type="button" value = "{{$donor->id}}" class="btn-s btn-success decl br acceptRequest"><i class="fa fa-check" aria-hidden="true"></i></button>
+              <button type="button" value = "{{$donor->id}}" class="btn-s btn-danger decl declineRequest"><i class="fa fa-times" aria-hidden="true"></i></button></button>
+              </td>
               @endif
+              </tr>
             @endforeach
           @endif
           </tbody>
@@ -102,37 +113,49 @@
                 <th>Contact Information</th>
                 <th>Blood Type</th>  
                 <th>Request Type</th>
-                <th>Date Requested</th>
+                <th>Request ID</th>
+                <th>Appointment Date</th>
                 <th>Appointment Time</th>
+                <th>Status</th>
                 <th>Actions</th>
             </tr>
         </thead>
           <tbody>
           @if($donor_requests)
           @foreach($donor_requests as $donor)
-            @if($donor->status=="Ongoing")
+            @if($donor->status =="Ongoing" || $donor->status == 'Pending')
             <tr>
-            <td>{{ $donor->id }} </td>
-            <td>{{ $donor->user->fname.' '.$donor->user->lname }} </td>
-            <td>0{{ $donor->user->contactinfo }}</td>
-            <td>{{ $donor->user->bloodType}}</td>
-            @if($donor->appointment_time)
-            <td>VOLUNTARY</td>
-            <td>{{ $donor->appointment_time->format('F d Y')}}</td>
-            <td>{{ $donor->appointment_time->format(' h:i A')}}</td>
-            @if(\Carbon\Carbon::now() <= $donor->appointment_time)
-            <td><button type="button" value = "{{$donor->id}}" class="btn-xs btn-danger completeRequest">Complete</button></td>
-            @else
-            <td></td>
-            @endif
+              <td>{{$donor->id}}</td>
+              <td>{{$donor->user->name()}}</td>
+              <td>0{{ $donor->user->contactinfo }}</td>
+              <td>{{ $donor->user->bloodType}}</td>
+              @if($donor->appointment_time)
+              <td>VOLUNTARY</td>
+              <td>n/a</td>
+              <td>{{ $donor->appointment_time->format('F d Y')}}</td>
+              <td>{{ $donor->appointment_time->format(' h:i A')}}</td>
               @else
-            <td>RESPONSE</td>
-            <td>{{ $donor->created_at->format('F d Y') }}</td>
-            <td> ASAP</td>
-            <td>
-            <button type="button" value = "{{$donor->id}}" class="btn-xs btn-danger viewRequest">View</button>
-            <button type="button" value = "{{$donor->id}}" class="btn-xs btn-danger completeRequest">Complete</button>
-            </td>
+              <td>RESPONSE</td>
+              <td>{{$donor->bloodRequest->request->id}}</td>
+              <td>{{ $donor->created_at->format('F d Y')}}</td>
+              <td>ASAP</td>
+              @endif
+              <td>{{ $donor->status }} </td>
+              @if($donor->status == "Ongoing")
+              <td>
+              <a href ="{{url('admin/donate/'.$donor->id)}}">
+              <button type="button" value = "{{$donor->id}}" class="btn-s btn-info"><i class="fa fa-eye"></i></button>
+              </a>
+
+              </td>
+              @else
+              <td>
+              <a href ="{{url('admin/donate/'.$donor->id)}}">
+              <button type="button" value = "{{$donor->id}}" class="btn-s btn-info"><i class="fa fa-eye"></i></button>
+              </a>
+              <button type="button" value = "{{$donor->id}}" class="btn-s btn-warning decl setRequest"><i class="fa fa-clock-o" aria-hidden="true"></i></button>
+              <button type="button" value = "{{$donor->id}}" class="btn-s btn-success decl br acceptRequest"><i class="fa fa-check" aria-hidden="true"></i></button>
+              <button type="button" value = "{{$donor->id}}" class="btn-s btn-danger decl declineRequest"><i class="fa fa-times" aria-hidden="true"></i></button></td>
               @endif
             </tr>
             @endif
@@ -142,35 +165,42 @@
         </table>
       </div>
       </div>
-      <div class ="tab-pane" id ="tab_3">
+      <div class ="tab-pane" id ="tab_4">
       <div class="box-body table-responsive no-padding">
         <table id = "done_requests" class="table table-hover ">
           <thead>
             <tr>
                 <th>ID</th>
                 <th>Name</th>
-                <th>Contact Information</th>
                 <th>Blood Type</th>  
-                <th>Date Requested</th>
+                <th>Request Type</th>
+                <th>Request ID</th>
+                <th>Appointment Date</th>
                 <th>Appointment Time</th>
+                <th>Actions</th>
             </tr>
         </thead>
           <tbody>
-          @if($donor_requests)
-          @foreach($donor_requests as $donor)
+          @if($doneRequests)
+          @foreach($doneRequests as $donor)
             @if($donor->status=="Done")
             <tr>
-            <td>{{ $donor->id }} </td>
-            <td>{{ $donor->user->fname.' '.$donor->user->lname }} </td>
-            <td>0{{ $donor->user->contactinfo }}</td>
+            <td>{{$donor->id}}</td>
+            <td>{{$donor->user->name()}}</td>
             <td>{{ $donor->user->bloodType}}</td>
             @if($donor->appointment_time)
+            <td>VOLUNTARY</td>
+            <td>n/a</td>
             <td>{{ $donor->appointment_time->format('F d Y')}}</td>
             <td>{{ $donor->appointment_time->format(' h:i A')}}</td>
             @else
+            <td>RESPONSE</td>
+            <td>{{$donor->bloodRequest->request->id}}</td>
             <td>{{ $donor->created_at->format('F d Y')}}</td>
             <td>ASAP</td>
             @endif
+            <td>
+            <a href ="{{url('admin/donate/'.$donor->id)}}"><button type="button"  class="btn-s btn-info"><i class="fa fa-eye"></i></button></td>
             </tr>
             @endif
           @endforeach
@@ -178,39 +208,42 @@
           </tbody>
         </table>
         </div>
-      <!-- /.box-body -->
-        </div>
-        <div class ="tab-pane" id ="tab_4">
+      </div>
+      <div class ="tab-pane" id ="tab_5">
       <div class="box-body table-responsive no-padding">
         <table id = "declined_requests" class="table table-hover ">
           <thead>
             <tr>
                 <th>ID</th>
                 <th>Name</th>
-                <th>Contact Information</th>
                 <th>Blood Type</th>  
-                <th>Date Requested</th>
+                <th>Request Type</th>
+                <th>Request ID</th>
+                <th>Appointment Date</th>
                 <th>Appointment Time</th>
                 <th>Reason</th>
             </tr>
         </thead>
           <tbody>
-          @if($donor_requests)
-          @foreach($donor_requests as $donor)
+          @if($cancelledRequests)
+          @foreach($cancelledRequests as $donor)
             @if($donor->status=="Declined")
             <tr>
-            <td>{{ $donor->id }} </td>
-            <td>{{ $donor->user->fname.' '.$donor->user->lname }} </td>
-            <td>0{{ $donor->user->contactinfo }}</td>
+            <td>{{$donor->id}}</td>
+            <td>{{$donor->user->name()}}</td>
             <td>{{ $donor->user->bloodType}}</td>
             @if($donor->appointment_time)
+            <td>VOLUNTARY</td>
+            <td>n/a</td>
             <td>{{ $donor->appointment_time->format('F d Y')}}</td>
             <td>{{ $donor->appointment_time->format(' h:i A')}}</td>
             @else
+            <td>RESPONSE</td>
+            <td>{{$donor->bloodRequest->request->id}}</td>
             <td>{{ $donor->created_at->format('F d Y')}}</td>
             <td>ASAP</td>
             @endif
-            <td></td>
+            <td>{{$donor->reason}}</td>
             </tr>
             @endif
           @endforeach
@@ -275,9 +308,9 @@
         </div>
                 <!-- /.form group -->
         </div>
-      <div class="modal-footer" style="margin-top:-1%">
+      <div class="modal-footer">
         <input type="submit" class="btn btn-outline" value="Set Time">
-        <button type="button" data-dismiss="modal" class="btn btn-outline">Close</button>
+        <button type="button" data-dismiss="modal" class="btn btn-danger">Close</button>
       </div>
       </form>
       </div>
@@ -296,17 +329,12 @@
       <form id ="acceptForm" class="form-horizontal" role="form" method="POST" action="{{ url('/admin/donate/accept') }}"> 
             {!! csrf_field() !!}
             <input type="hidden" id ="acceptId" name ="id" />
-            <div>
-            <label class="control-label">Terms:</label>
-            <br>
-            <br>
-            <p style ="margin-left:3%">You are accepting this donation request.</p>
-            </div>
+            <p style ="margin-left:3%">Do you want to accept this donation request?<br> This will immediately notify the donor that his request will is accepted.</p>  
           </div>
         </div>
-      <div class="modal-footer" style="margin-top:-1%">
-        <input type="submit" name = "submitRequest" class="btn btn-outline" value="Accept">
-        <button type="button" data-dismiss="modal" class="btn btn-outline">Close</button>
+      <div class="modal-footer">
+        <input type="submit" name = "submitRequest" class="btn btn-danger" value="Accept">
+        <button type="button" data-dismiss="modal" class="btn btn-danger">Close</button>
       </div>
       </form>
       </div>
@@ -326,17 +354,16 @@
             {!! csrf_field() !!}
             <input type="hidden" id ="acceptId" name ="id" />
             <div class="form-group">
-            <label class="control-label">Terms:</label>
-            <br>
+            <label style ="margin-left:3%" class="control-label">Terms:</label>
             <br>
 
             <p style ="margin-left:3%">Complete this donation request form and mark it as Done!</p>
             </div>
           </div>
         </div>
-      <div class="modal-footer" style="margin-top:-1%">
-        <input type="submit" name = "submitRequest" class="btn btn-outline" value="Complete">
-        <button type="button" data-dismiss="modal" class="btn btn-outline">Close</button>
+      <div class="modal-footer">
+        <input type="submit" name = "submitRequest" class="btn btn-danger" value="Complete">
+        <button type="button" data-dismiss="modal" class="btn btn-danger">Close</button>
       </div>
       </form>
       </div>
@@ -348,28 +375,41 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Decline Request Form</h4>
+        <h4 class="modal-title">Decline Blood Donation</h4>
       </div>
       <form id ="deleteForm" class="form-horizontal" role="form" method="POST" action="{{ url('/admin/donate/delete') }}"> 
       <div class="modal-body">
         <div id = "view" class="bootstrap-timepicker"> 
             {!! csrf_field() !!}
             <input type="hidden" id ="acceptId" name ="id" />
-            <div class="form-group" style ="padding: 10px">
-              <label style ="margin-left:3%" class="control-label">Reason:</label>
+            <div class="form-group" style ="padding-left: 10px; padding-right: 10px">
+              <label class="control-label">Reason:</label>
               <textarea name = "message" class ="form-control" required></textarea>
-              <br>
             </div>
 
-            <label style ="margin-left:3%" class="control-label">Terms:</label>
+            <div style = "padding-left: 10px; padding-right: 10px" class="form-group">
+                  <label class="control-label">Blacklist</label>
+                  <div class="radio">
+                    <label>
+                      <input type="radio" name="blacklist" value="true" required>
+                      Yes
+                    </label>
+                  </div>
+                  <div class="radio">
+                    <label>
+                      <input type="radio" name="blacklist"  value="false">
+                      No
+                    </label>
+                  </div>
+                </div>
+            <label class="control-label">Terms:</label>
             <br>
-            <br>
-            <p style ="margin-left:3%">Upon deletion of this request, it will no longer be able to be processed.</p>
+            <p>Upon deletion of this request, it will no longer be able to be processed.</p>
           </div>
         </div>
-      <div class="modal-footer" style="margin-top:-1%">
-        <input type="submit" name = "submitRequest" class="btn btn-outline" value="Submit">
-        <button type="button" data-dismiss="modal" class="btn btn-outline">Close</button>
+      <div class="modal-footer">
+        <input type="submit" name = "submitRequest" class="btn btn-danger" value="Submit">
+        <button type="button" data-dismiss="modal" class="btn btn-danger">Close</button>
       </div>
       </form>
       </div>
@@ -387,18 +427,25 @@
     <script type="text/javascript" src="{{asset('theme/js/DataTables/media/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{ asset('theme/js/bootstrap-datepicker.js') }}"></script>
     <script src="{{ asset('theme/js/dashboard.js') }}"></script>
-    <script src ="{{ asset('js/mom.js')}}"></script>
-    <script src ="{{ asset('js/datatablesmom.js')}}"></script>
+    <script src ="{{ asset('js/moment.min.js')}}"></script>
+    <script src ="{{ asset('js/datetime-moment.js')}}"></script>
     <script> 
       $(document).ready(function() {
 
-      $.fn.dataTable.moment( 'HH:mm MMM D, YY' );
-      
-      $( "#donateDate" ).datepicker();  
-      $('#pending_requests').DataTable();
+      $( "#donateDate" ).datepicker();
+      $.fn.dataTable.moment( 'MMMM DD, YYYY' );
+      $.fn.dataTable.moment( 'HH:MM AA' );  
+
+      $('#pending_requests').DataTable( {
+        "order": [[ 5, "asc" ]]
+      });
       $('#ongoing_requests').DataTable();
-      $('#done_requests').DataTable();
-      $('#declined_requests').DataTable();
+      $('#done_requests').DataTable( {
+        "order": [[ 5, "desc"]]
+      });
+      $('#declined_requests').DataTable({
+        "order": [[ 5, "desc"]]
+      });
       });
     </script>
 @stop

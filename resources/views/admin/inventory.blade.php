@@ -3,13 +3,13 @@
 @section('title', 'Inventory')
 
 @section('content_header')
-      <h1>
+     <!--  <h1>
       &nbsp
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li class="active">Inventory</li>
-      </ol>
+      </ol> -->
 @stop
 
 @section('content') 
@@ -51,10 +51,10 @@
               <th>Quantity</th>
               </thead>
               <tbody>
-              @foreach($bloodType->bloodBags as $bloodBag)
+              @foreach($bloodType->bloodType as $bloodBag)
               <tr>
               <td> {{$bloodBag->category}} </td>
-              <td align="center"> {{$bloodBag->qty}} </td>
+              <td align="center"> {{count($bloodBag->inventory)}} </td>
               </tr>
               @endforeach
               </tbody>
