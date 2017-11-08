@@ -300,7 +300,7 @@
         </div>
       <div class="modal-footer">
         <input type="submit" name = "submitRequest" class="btn btn-danger" value="Notify">
-        <button type ="button" class="btn btn-danger replybtn" data-dismiss="modal">Accept</button> 
+        <button type ="button" class="btn btn-danger replybtn" id ="accptBtn" data-dismiss="modal">Accept</button> 
         <button type="button" data-dismiss="modal" class="btn btn-danger">Close</button>
       </div>
       </form>

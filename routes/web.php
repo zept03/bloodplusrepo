@@ -29,9 +29,9 @@ use App\BloodInventory;
 |
 */
 Route::get('/abcdefg',function (){
-    $collection = BloodType::find('5B782AA')->nonReactive();
-    dd($collection);
-
+    // $collection = BloodType::find('5B782AA')->nonReactive();
+    // dd($collection);
+    $exitCode = Artisan::call('queue:work');
     // $bloodType = BloodType::first();
     // dd($bloodType->bloodCategory);
     // $exitCode = Artisan::call('cache:clear');

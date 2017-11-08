@@ -83,9 +83,11 @@ class BloodRequestNotification extends Notification
     {
         // dd($notifiable->id);
         return new BroadcastMessage([
+            'data' => [
             'class' => $this->instance,
             'user' => $this->user,
             'message' => $this->message
+            ]
         ]);
     }
 

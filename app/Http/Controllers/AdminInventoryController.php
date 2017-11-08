@@ -16,10 +16,15 @@ class AdminInventoryController extends Controller
     
     public function index()
     {
-    	$bloodTypes = BloodCategory::with(['bloodType.inventory' => function ($query)
-        {
-          $query->where('status','Available');
-        }])->orderBy('name')->get();
+    	$bloodTypes = BloodCategory::with([
+          'bloodType' => function($query) 
+          {
+            $query->orderBy('category');
+          },'bloodType.inventory' => function ($query)
+          {
+            $query->where('status','Available');
+          }
+        ])->orderBy('name')->get();
       // $bloodTypes = BloodType::find('AD7B725');
       // dd($bloodTypes->bloodType);
 
@@ -39,21 +44,21 @@ class AdminInventoryController extends Controller
       	{
       		$string[] = "Blood Inventory capable for this request(count is: ".$count.").";
       		$string[] = "Recommended: Accept and finish blood request";
-
       	}
       	else
       	{
       		$string[] = "Blood Inventory not capable for this request(count is: ".$count.").";
-      		$string[] = "Recommended: notify to eligible donors."; 
+      		$string[] = "Recommended: notify to eligible donors.";
+
       	}
-      	return response()->json($string);
+      	return response()->json(['updates' => $string, 'count' => $count]);
     }
 
     public function showBloodbags(Request $request)
     {
-      $pendingScreenedBloods = ScreenedBlood::where('status','Pending')->get();
+        $pendingScreenedBloods = ScreenedBlood::where('status','Pending')->get();
       // dd($pendingScreenedBloods->first()->donation);
-      return view('admin.screenedbloodbags',compact('pendingScreenedBloods'));
+        return view('admin.screenedbloodbags',compact('pendingScreenedBloods'));
     }
 
     public function showStatustoStagedView(Request $request)
@@ -121,7 +126,7 @@ class AdminInventoryController extends Controller
       $single = false;
       $screenedBloodBags = Screenedblood::whereIn('id',$request->input('ids')->get());
       return view('admin.showcompletebloodscreen',compact('screenedBloodBags','single'));
-    }
+    }   
 
     public function completeScreenedBlood(Request $request)
     {

@@ -97,10 +97,15 @@ $(function () {
             $('#recommended').text('')
             // console.log("12345");
             var i = 0;
-            for(i = 0; i < response.length; i++)
-            {
-              $("#recommended").append(response[i]+"<br>");
 
+            for(i = 0; i < response.updates.length; i++)
+            {
+              $("#recommended").append(response.updates[i]+"<br>");
+
+            }
+            if(response.count == 0)
+            {
+              $("#accptBtn").attr("disabled",true);
             }
             console.log(response);
           },
