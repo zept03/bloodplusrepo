@@ -191,6 +191,7 @@ class AdminDonateController extends Controller
             'id' => strtoupper(substr(sha1(mt_rand() . microtime()), mt_rand(0,35), 7)),
             'message' => 'You have succefully finished your blood donation'
             ]);
+
         Log::create([
             'initiated_id' => Auth::guard('web_admin')->user()->id,
             'initiated_type' => 'App\InstitutionAdmin',
@@ -199,6 +200,7 @@ class AdminDonateController extends Controller
             'id' => strtoupper(substr(sha1(mt_rand() . microtime()), mt_rand(0,35), 7)),
             'message' => 'You have completed a voluntary  blood donation'
             ]);
+        
         $user = $donateRequest->user;
         $class = array("class" => "App\DonateRequest",
             "id" => $donateRequest->id,

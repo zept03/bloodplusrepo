@@ -86,6 +86,7 @@ class AdminInventoryController extends Controller
     }
     public function setSingleStatusToStaged(Request $request, ScreenedBlood $bloodbag)
     {
+      dd($request->input());
        $name = $bloodbag->donation->user->bloodType;
       foreach($request->input('component') as $component)
       {
@@ -138,6 +139,7 @@ class AdminInventoryController extends Controller
     }
     public function completeSingleScreenedBlood(Request $request, ScreenedBlood $staged)
     {
+
       if($request->input('reactive') == 'true')
       {
         // dd($request->input('diagnose'));

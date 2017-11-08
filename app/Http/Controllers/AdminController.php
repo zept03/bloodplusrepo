@@ -18,6 +18,7 @@ use Carbon\Carbon;
 use App\Post;
 use App\Log;
 use App\Campaign;
+use App\BloodInventory;
 
 class AdminController extends Controller
 {
@@ -229,9 +230,20 @@ class AdminController extends Controller
         $user->notify(new BloodRequestNotification($class,$usersent,'Your blood bags are ready to be claimed. Please come as soon as possible.'));
         return redirect('/admin/request')->with('status', 'User successfully notified!');
     }
-    public function updateToDone(Request $request)
+
+    public function showCompleteRequest(Request $request, BloodRequest $bloodRequest)
     {
-        $bloodRequest = BloodRequest::find($request->input('id'));
+        if($bloodRequest->status == "Done" || $bloodRequest->status == "Declined")
+        {
+            return redirect("admin/request");            
+        }
+        $availBloods = $bloodRequest->details->bloodType->nonReactive();
+        return view('admin.completerequestform',compact('bloodRequest','availBloods'));
+    }
+    public function updateToDone(Request $request, BloodRequest $bloodRequest)
+    {
+        dd($request->input('serial'));
+        // $bloodRequest = BloodRequest::find($request->input('id'));
         $updates = $bloodRequest->updates;              
         $updates[] = 'The blood request is completed and finished';   
          
@@ -241,15 +253,15 @@ class AdminController extends Controller
             ]);
         $bloodRequest->details()->update(['status' => 'Done']);
         //if the blood request has call to arms
-        $post = Post::create([
-            'id' => strtoupper(substr(sha1(mt_rand() . microtime()), mt_rand(0,35), 7)),
-            'message' => 'A hero just saved someone someone someone',
-            'picture' => asset('assets/img/posts/blood-donation.jpg'),
-            'initiated_id' => Auth::guard('web_admin')->user()->id,
-            'initiated_type' => 'App\InstitutionAdmin',
-            'reference_type' => 'App\BloodRequest',
-            'reference_id' => $bloodRequest->id
-            ]);
+        //$post = Post::create([
+        //     'id' => strtoupper(substr(sha1(mt_rand() . microtime()), mt_rand(0,35), 7)),
+        //     'message' => 'A hero just saved someone someone someone',
+        //     'picture' => asset('assets/img/posts/blood-donation.jpg'),
+        //     'initiated_id' => Auth::guard('web_admin')->user()->id,
+        //     'initiated_type' => 'App\InstitutionAdmin',
+        //     'reference_type' => 'App\BloodRequest',
+        //     'reference_id' => $bloodRequest->id
+        //     ]);
 
         Log::create([
             'initiated_id' => $bloodRequest->user->id,
@@ -274,6 +286,13 @@ class AdminController extends Controller
                 "picture" => Auth::guard('web_admin')->user()->institute->picture());
 
         $user->notify(new BloodRequestNotification($class,$usersent,'We have completed your blood request.'));
+
+        BloodInventory::whereIn('id',$request->input('serial'))
+        ->update([
+            'status' => 'Sold',
+            'br_detail_id' => $bloodRequest->details->id,
+            ]);
+
         // $hero = $bloodRequest->user;
         // dispatch(new SendTextBlast($hero,$message)); 
 

@@ -122,9 +122,10 @@ $(function () {
   });
   $(".replybtn").on("click",function () {
     $id = $("#acceptForm input[name=id]").val();
+    window.location.href = "/bloodplusrepo/public/admin/request/"+$id+"/accept";
     // console.log($id);
-    $("#replyForm input[name=id]").val($id);
-    $("#replyForm").submit();
+    // $("#replyForm input[name=id]").val($id);
+    // $("#replyForm").submit();
     // $("#replyModal").modal();
   });
   $(".sendTextBlast").on("click", function () {
@@ -174,7 +175,50 @@ $(function () {
     $("#logout-form").submit();
   })
 
-  $(".something").on('change', function () {
-    var options = {"Opt": "val"};
+  $(".something").on('click', function () {
+    var id =$(this).val();
+    window.location.href = "/bloodplusrepo/public/admin/request/"+id+"/complete";
   })
+
+  $(".addBtn").on('click', function () {
+    // alert('12345');
+    var val = $('#diagnose :selected').val();
+    var text = $("#diagnose :selected").text();
+    var numItems = $('.serial-bags').length;
+    var count = $(this).data("count");
+    if(count == numItems) 
+    {
+
+    }
+    else
+    {
+    if(val != '')
+    {
+
+     $option = $("<input type='hidden'>")
+        .attr("name", 'serial['+numItems+']')
+        .attr("class", 'serial-bags')
+        .attr("value", val)
+
+    $("#completeRequestForm").prepend($option)
+     $list = $("<li></li>")
+        .text("Blood Bag #"+text);
+    $("#bloodList").append($list);
+
+    $("#diagnose option:selected").remove();
+    $("#diagnose").prop("selectedIndex", 0);
+    $("#submitBrBtn").attr("disabled",false);
+    var numItems = $('.serial-bags').length;
+    var count = $(this).data("count");
+      if(count == numItems)
+      {
+      $(this).attr("disabled",true);   
+      }
+    }
+    else
+    {
+      alert("Select A Blood Bag Serial number");
+    }
+    }
+  });
 });

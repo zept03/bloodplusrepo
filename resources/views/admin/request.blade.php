@@ -103,14 +103,15 @@
               <td> {{$request->user->fname.' '.$request->user->lname}} </td>
               <td>{{ $request->details->blood_category.' '.$request->details->blood_type }} </td>
               <td>{{ $request->details->units }} </td>
-              <td> {{ $request->details->bloodType->qty}} </td>
+              <td> {{ count($request->details->bloodType->nonReactive())}} </td>
               <td>{{count($request->donors)}}</td>
               <td>{{ $request->created_at->format(' jS \\of F Y')}} </td>
 
              <td><button type="button" value = "{{$request->id}}" class="btn-s btn-info decl viewBloodRequest" data-toggle="modal" data-target="#viewModal"><i class="fa fa-eye"></i></button>
              <button type="button" value = "{{$request->id}}" class="btn-s btn-warning claimRequest"><i class="fa fa-gift" aria-hidden="true"></i></button>
              @if($request->details->bloodType->qty >= $request->details->units)
-            <button type="button" value = "{{$request->id}}" class="btn-s btn-success decl completeRequest"><i class="fa fa-check" aria-hidden="true"></i></button>@endif
+            <button type="button" value = "{{$request->id}}" class="btn-s btn-success something"><i class="fa fa-check" aria-hidden="true"></i></button>
+            @endif
             </td>
             </tr>
             @endif
@@ -299,7 +300,7 @@
         </div>
       <div class="modal-footer">
         <input type="submit" name = "submitRequest" class="btn btn-danger" value="Notify">
-        <button type ="button" class="btn btn-danger replybtn" data-dismiss="modal">Reply</button> 
+        <button type ="button" class="btn btn-danger replybtn" data-dismiss="modal">Accept</button> 
         <button type="button" data-dismiss="modal" class="btn btn-danger">Close</button>
       </div>
       </form>

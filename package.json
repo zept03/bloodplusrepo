@@ -24,6 +24,7 @@
     "vuetable-2": "^1.6.5"
   },
   "dependencies": {
+    "kendo-ui-core": "^2017.3.1102",
     "laravel-echo": "^1.3.2",
     "pusher-js": "^4.1.0"
   }

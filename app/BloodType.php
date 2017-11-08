@@ -24,4 +24,13 @@ class BloodType extends Model
     	return $this->hasMany('App\BloodInventory','blood_type_id','id');
     }
 
+    public function nonReactive()
+    {
+        $inventory = $this->inventory;
+        $filtered = $inventory->filter(function ($value, $key) {
+        return $value->status == 'Available';
+        });
+        return $filtered;
+    }
+
 }

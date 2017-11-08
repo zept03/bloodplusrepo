@@ -17,6 +17,7 @@ use LaravelFCM\Message\PayloadDataBuilder;
 use LaravelFCM\Message\PayloadNotificationBuilder;
 use App\BloodType;
 use App\BloodCategory;
+use App\BloodInventory;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,6 +29,8 @@ use App\BloodCategory;
 |
 */
 Route::get('/abcdefg',function (){
+    $collection = BloodType::find('5B782AA')->nonReactive();
+    dd($collection);
 
     // $bloodType = BloodType::first();
     // dd($bloodType->bloodCategory);
@@ -199,11 +202,14 @@ Route::prefix('admin')->group(function () {
     //send textblast to tanan available(meaning walay blood);
     Route::post('/request/accept','AdminController@updateToActive');
     
-    Route::post('/request/finish','AdminController@updateToDone');
     Route::post('/request/delete','AdminController@deleteRequest');
     Route::post('/request/claim','AdminController@claimRequest');
     //reply to user for update dayon;
     Route::post('/request/reply','AdminController@sendMessage');
+    Route::get('/request/{bloodRequest}/accept','AdminController@showCompleteRequest');
+    Route::get('/request/{bloodRequest}/complete','AdminController@showCompleteRequest');
+    Route::post('/request/{bloodRequest}/complete','AdminController@updateToDone');
+
     // Route::get('/sendTextBlast','AdminController@sendTextBlast');
     Route::post('/donors/notify','AdminController@notifyViaText');
     Route::get('/donate','AdminDonateController@donate');

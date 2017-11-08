@@ -54,7 +54,7 @@
               @foreach($bloodType->bloodType as $bloodBag)
               <tr>
               <td> {{$bloodBag->category}} </td>
-              <td align="center"> {{count($bloodBag->inventory)}} </td>
+            <td align="center"> {{count($bloodBag->nonReactive())}} </td>
               </tr>
               @endforeach
               </tbody>

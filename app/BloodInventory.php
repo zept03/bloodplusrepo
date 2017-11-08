@@ -15,6 +15,11 @@ class BloodInventory extends Model
 
    public function bloodType()
    {
-      return $this->belongsTo('App\BloodType','blood_type_id','id');
+   		return $this->belongsTo('App\BloodType','blood_type_id','id');
+   }
+
+   public function screenedBlood()
+   {
+   		return $this->belongsTo('App\ScreenedBlood','screened_blood_id','id');
    }
 }

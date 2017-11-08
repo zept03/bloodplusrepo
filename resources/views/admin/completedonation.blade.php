@@ -19,7 +19,7 @@
     <div class="box box-info  ">
       <div class="box-header">
         <center>
-          <h3><b>Complete Blood Donation</b></h3>
+          <h3 class="box-title"><b>Complete Blood Donation</b></h3>
         </center>
       </div>
 
@@ -73,7 +73,7 @@
         <div class ="row">
           <div class ="col-md-2">
           <label class="control-label">Serial Number:</label>
-          <input type ="number" class="form-control text-underline" name ="serial-number" placeholder="Input Here" />
+          <input type ="number" class="form-control text-underline" name ="serial_number" placeholder="Input Here" />
           </div>
         </div>
         {!! csrf_field() !!}
