@@ -221,4 +221,15 @@ $(function () {
     }
     }
   });
+
+  $(".screen450s").on("click",function () {
+    // console.log($(this).val());
+    $("#acceptForm").attr("action","/bloodplusrepo/public/admin/bloodbags/"+$(this).val()+"/screen");
+    $("#acceptId").val('Whole Blood');
+
+    // console.log($(this).val());
+    // console.log($(this).data("type"));
+    $("#acceptModal").modal();
+  
+  });
 });

@@ -48,8 +48,8 @@
                   <a href ="{{url('admin/donate/'.$screenedBlood->donation->id)}}">
                   <button type="button" value = "{{$screenedBlood->donation->id}}" class="btn-s btn-info"><i class="fa fa-eye"></i></button>
                   </a>
-                  @if($screenedBlood->component == '450s')
-                  <button type="button" value = "{{$screenedBlood->donation->id}}" class="btn-s btn-success openmodal"><i class="fa fa-check"></i></button>
+                  @if($screenedBlood->bag_component == '450s')
+                  <button type="button" value = "{{$screenedBlood->donation->id}}" class="btn-s btn-success screen450s"><i class="fa fa-check"></i></button>
                   @else
                   <a href ="{{url('admin/bloodbags/'.$screenedBlood->id.'/screen')}}">
                   <button type="button" value = "{{$screenedBlood->donation->id}}" class="btn-s btn-success"><i class="fa fa-check"></i></button>
@@ -63,8 +63,36 @@
           </tbody>
         </table>
       </div>
+
   	</div>
 </div>
+</div>
+<div class="modal fade modal-danger" id ="acceptModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Screen Blood Bag</h4>
+      </div>
+      <form id ="acceptForm" role="form" method="POST" action="{{ url('/admin/request/accept') }}"> 
+      <div class="modal-body">
+        <div id = "view" class="bootstrap-timepicker"> 
+            {!! csrf_field() !!}
+            <input type="hidden" id ="acceptId" name ="component[0]" />
+            <div class="form-group">
+            <p style ="margin-left:3%" >Do you really want to start screening this blood bag? <br>Press Confirm to start.
+            </p>
+            </div>
+          </div>
+        </div>
+      <div class="modal-footer">
+        <button type ="button" class="btn btn-danger replybtn" data-dismiss="modal">Confirm</button> 
+        <button type="button" data-dismiss="modal" class="btn btn-danger">Close</button>
+      </div>
+      </form>
+      </div>
+    </div>
 </div>
 @stop
 

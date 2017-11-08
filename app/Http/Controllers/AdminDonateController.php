@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use App\DonateRequest;
 use App\Blacklist;
@@ -14,6 +15,7 @@ use App\BloodType;
 use \DB;
 use App\BloodInventory;
 use App\ScreenedBlood;
+
 
 class AdminDonateController extends Controller
 {
@@ -42,18 +44,19 @@ class AdminDonateController extends Controller
 
     public function setAppointment(Request $request)
     {
-        $hourmin = explode(':' ,$request->input('donatetime'));
-        $hour = $hourmin[0];
-        $min = $hourmin[1];
+        // dd($request->input());
+        // $hourmin = explode(':' ,$request->input('donatetime'));
+        // $hour = $hourmin[0];
+        // $min = $hourmin[1];
         // dd($hourmin);
-        $appointmentTime = Carbon::createFromTime($hour, $min)->toDateTimeString();
-
+        $appointmentTime = new Carbon($request->input('donatedate').' '.$request->input('donatetime'));
+        // dd($appointment_time);
         $donateRequest = DonateRequest::find($request->input('id'));
     	// $donateRequest = DonateRequest::firstOrFail();
 
         $updates = $donateRequest->updates;
         //change to carbon time 09:00 AM/PM;
-        $updates[] = "Changed blood donation appointment time to ".(new Carbon($appointmentTime))->format('h:i A').".";
+        $updates[] = "Changed blood donation appointment time to ".$appointmentTime->format('h:i A').".";
         // change status to ongoing
         $donateRequest->update([
             'appointment_time' => $appointmentTime,
@@ -161,7 +164,11 @@ class AdminDonateController extends Controller
     {
         $donateRequest = $donate;
 
-        //complete
+        $validation = Validator::make($request->all(), [
+            'serial_number' => 'required|max:255|unique:screened_bloods',
+            ]);
+
+        $validation->validate();
         $updates = $donateRequest->updates;
         $updates[] = "Completed your blood donation.";
         $donateRequest->update([

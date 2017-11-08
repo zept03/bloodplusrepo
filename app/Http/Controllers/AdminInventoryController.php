@@ -86,14 +86,15 @@ class AdminInventoryController extends Controller
     }
     public function setSingleStatusToStaged(Request $request, ScreenedBlood $bloodbag)
     {
-      dd($request->input());
-       $name = $bloodbag->donation->user->bloodType;
+      // dd($request->input());
+      $name = $bloodbag->donation->user->bloodType;
       foreach($request->input('component') as $component)
       {
         $bloodType = BloodType::whereHas('bloodCategory', function ($query) use ($name)
             {
                 $query->where('name',$name);
         })->where('category',$component)->first();
+        // dd($bloodType);
         $bloodinventory = BloodInventory::create([
           'id' => strtoupper(substr(sha1(mt_rand() . microtime()), mt_rand(0,35), 7)),
           'screened_blood_id' => $bloodbag->id,

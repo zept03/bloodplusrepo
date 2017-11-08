@@ -47,7 +47,7 @@
             Karmi
           </label>
           <label style ="margin-left: 1%;margin-right: 1%">
-            <input type="radio" name="bag_type"  value="radio">
+            <input type="radio" name="bag_type"  value="terumo">
             Terumo
           </label>
         </div>
@@ -76,6 +76,11 @@
           <input type ="number" class="form-control text-underline" name ="serial_number" placeholder="Input Here" />
           </div>
         </div>
+        @if ($errors->has('serial_number'))
+            <span class="help-block">
+              <strong>{{ $errors->first('serial_number') }}</strong>
+            </span>
+          @endif
         {!! csrf_field() !!}
 
         <center>

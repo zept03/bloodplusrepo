@@ -28,6 +28,11 @@ class UserDonateController extends Controller
         })->with('institute')->first();
 
         $institutions = Institution::all();    
+        $activeRequest = null;
+        $nextDonation = null;
+        $historyRequest = null;
+        return view('user.donate',compact('institutions','activeRequest','historyRequest','nextDonation'));
+
         $historyRequest = DonateRequest::where('status','Done')->where('initiated_by',Auth::user()->id)->get();
         if(!count($historyRequest))
             $historyRequest = null;

@@ -156,8 +156,8 @@
           <select name="component[3] third-comp" class="form-control">
           <option value='' disabled hidden selected> Select Component</option>
               <option value="Cryoprecipitate">Cryoprecipitate</option>
-              <option value="resh Frozen Plasma">Fresh Frozen Plasma</option>
-          </select> <br> 
+              <option value="Fresh Frozen Plasma">Fresh Frozen Plasma</option>
+          </select> 
           </div>
 
 
@@ -190,10 +190,10 @@
 
         <div class="radio component col-md-12">
           <h4>4th Blood Component</h4>
-          <select name="component[3] third-comp" class="form-control">
+          <select name="component[4] third-comp" class="form-control">
           <option value='' disabled hidden selected> Select Component</option>
               <option value="Cryoprecipitate">Cryoprecipitate</option>
-              <option value="resh Frozen Plasma">Fresh Frozen Plasma</option>
+              <option value="Fresh Frozen Plasma">Fresh Frozen Plasma</option>
           </select> <br> 
           </div>
         </div>
