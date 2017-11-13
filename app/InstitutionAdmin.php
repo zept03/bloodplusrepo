@@ -40,4 +40,8 @@ class InstitutionAdmin extends Authenticatable
     {
         return $this->institute->name();
     }
+
+    public function posts() {
+        return $this->morphMany('App\Post','initiated');
+    }
 }

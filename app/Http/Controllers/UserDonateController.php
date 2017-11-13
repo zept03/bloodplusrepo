@@ -31,7 +31,7 @@ class UserDonateController extends Controller
         $activeRequest = null;
         $nextDonation = null;
         $historyRequest = null;
-        return view('user.donate',compact('institutions','activeRequest','historyRequest','nextDonation'));
+        // return view('user.donate',compact('institutions','activeRequest','historyRequest','nextDonation'));
 
         $historyRequest = DonateRequest::where('status','Done')->where('initiated_by',Auth::user()->id)->get();
         if(!count($historyRequest))
@@ -57,11 +57,6 @@ class UserDonateController extends Controller
             }
         }
         $nextDonation = null;
-        // dd($activeRequest);
-    	// dd($activeRequest);
-    	$institutions = Institution::all();
-        // dd($institutions);   
-    	// dd($activeRequest->institute->institution);
     	return view('user.donate',compact('institutions','activeRequest','historyRequest','nextDonation'));
     }
 

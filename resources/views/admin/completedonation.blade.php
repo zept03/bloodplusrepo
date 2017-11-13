@@ -8,10 +8,6 @@
     {{ session('status') }}
   </div>
 
-  <script type ="text/javascript">
-  var message = document.getElementById('alertmsg').innerHTML;
-  alert(message);
-  </script>
 @endif
 
 <div class="row">
@@ -43,31 +39,61 @@
         <label class="control-label">Blood Bag Brand:</label>
         <div class="radio">
           <label style ="margin-left: 1%;margin-right: 1%">
+          @if(old('bag_type') == 'karmi')
+          <input type="radio" name="bag_type" value="karmi" checked required>
+            Karmi
+          @else
           <input type="radio" name="bag_type" value="karmi" required>
             Karmi
+          @endif
           </label>
           <label style ="margin-left: 1%;margin-right: 1%">
-            <input type="radio" name="bag_type"  value="terumo">
+          @if(old('bag_type') =='terumo')
+            <input type="radio" name="bag_type" checked  value="terumo">
             Terumo
+          @else
+          <input type="radio" name="bag_type" value="terumo">
+            Terumo
+          @endif
           </label>
         </div>
         <label class="control-label">Blood Bag Component:</label>
         <div class="radio">
           <label style ="margin-left: 1%;margin-right: 1%">
-            <input type="radio" name="bag_component" value="450s" required>
+          @if(old('bag_component') == '450s')
+            <input type="radio" name="bag_component" value="450s" checked required>
             450s
+          @else
+            <input type="radio" name="bag_component" value="450s" required required>
+            450s
+          @endif
           </label>
           <label style ="margin-left: 1%;margin-right: 1%">
+          @if(old('bag_component') == '450d')
+            <input type="radio" name="bag_component"  checked value="450d">
+            450d
+          @else
             <input type="radio" name="bag_component"  value="450d">
             450d
+          @endif
           </label>
           <label style ="margin-left: 1%;margin-right: 1%">
+          @if(old('bag_component') == '450t')
+            <input type="radio" name="bag_component"  checked value="450t">
+            450t
+            @else
             <input type="radio" name="bag_component"  value="450t">
             450t
+            @endif
           </label>
           <label style ="margin-left: 1%;margin-right: 1%">
+          @if(old('bag_component') == '450q')
+            <input type="radio" name="bag_component"  checked value="450q">
+            450q
+            @else
             <input type="radio" name="bag_component"  value="450q">
             450q
+            @endif
           </label>
         </div>
         <div class ="row">
@@ -92,4 +118,14 @@
   	</div>
 </div>
 </div>
+@stop
+
+@section('js')
+<script>
+  $(document).ready(function() {
+      var message = document.getElementById('alertmsg').innerHTML;
+      if(message != '')
+      alert(message);
+  });
+</script>
 @stop

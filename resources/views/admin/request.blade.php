@@ -17,11 +17,6 @@
   <div id = "alertmsg" style="display:none">
     {{ session('status') }}
   </div>
-
-  <script type ="text/javascript">
-  var message = document.getElementById('alertmsg').innerHTML;
-  alert(message);
-  </script>
 @endif
     <!-- Main content -->
       <!-- Small boxes (Stat box) -->
@@ -108,8 +103,10 @@
               <td>{{ $request->created_at->format(' jS \\of F Y')}} </td>
 
              <td><button type="button" value = "{{$request->id}}" class="btn-s btn-info decl viewBloodRequest" data-toggle="modal" data-target="#viewModal"><i class="fa fa-eye"></i></button>
+            @if(count($request->details->bloodType->nonReactive()) >= 5 || count($request->details->bloodType->nonReactive()) != 0)
              <button type="button" value = "{{$request->id}}" class="btn-s btn-warning claimRequest"><i class="fa fa-gift" aria-hidden="true"></i></button>
-             @if($request->details->bloodType->qty >= $request->details->units)
+            @endif
+            @if(count($request->details->bloodType->nonReactive()) >= $request->details->units)
             <button type="button" value = "{{$request->id}}" class="btn-s btn-success something"><i class="fa fa-check" aria-hidden="true"></i></button>
             @endif
             </td>
@@ -140,7 +137,7 @@
             <tr>
               <td> {{$request->id}} </td>
               <td> {{$request->patient_name}}  </td>
-              <td> {{$request->user->fname.' '.$request->user->lname}} </td>
+              <td> {{$request->user->fname.' '.$request->user->lname}} </td>  
               <td>{{ $request->details->blood_type }} </td>
               <td>{{ $request->details->units }} </td>
               <td>{{ $request->created_at->format(' jS \\of F Y')}} </td>
@@ -348,11 +345,7 @@
             {!! csrf_field() !!}
             <input type="hidden" id ="acceptId" name ="id" />
             <div class="form-group" style ="padding: 10px">
-              <label style ="margin-left:3%" class="control-label">Reason:</label>
-              <textarea name = "message" class ="form-control" required></textarea>
-              <br>
             <label style ="margin-left:3%" class="control-label">Terms:</label>
-            <br>
             <br>
 
             <p style ="margin-left:3%;color: black">Upon deletion of this request, it will no longer be able to be processed.</p>
@@ -412,12 +405,28 @@
     <script type="text/javascript" src="{{asset('theme/js/DataTables/media/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{ asset('theme/js/bootstrap-datepicker.js') }}"></script>
     <script src="{{ asset('theme/js/dashboard.js') }}"></script>
+    <script src ="{{ asset('js/moment.min.js')}}"></script>
+    <script src ="{{ asset('js/datetime-moment.js')}}"></script>
+       
     <script> 
+
       $(document).ready(function() {
-      $('#pending_requests').DataTable();
-      $('#ongoing_requests').DataTable();
+      
+            $.fn.dataTable.moment( 'MMMM DD, YYYY' );
+      $.fn.dataTable.moment( 'HH:MM AA' );  
+
+      $('#pending_requests').DataTable({
+        "order": [[ 7, "asc" ]]
+      });
+      $('#ongoing_requests').DataTable({
+        "order": [[ 7, "asc" ]]
+      });
       $('#done_requests').DataTable();
       $('#declined_requests').DataTable();
+      
+      var message = document.getElementById('alertmsg').innerHTML;
+      if(message != '')
+      alert(message);
       });
     </script>
 @stop

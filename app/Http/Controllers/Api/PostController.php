@@ -15,7 +15,34 @@ class PostController extends Controller
     
     public function getAllPost()
     {
-    	$tmpPosts = Post::with(['initiated','reference'])->orderBy('created_at','desc')->get();
+        $tmpPosts = Auth::user()->posts;
+        // dd($tmpPosts);
+        $followers = Auth::user()->load(['followers.posts','followedUsers.posts','followedInstitutions.admins.posts']);
+        // dd(Auth::user());
+        // foreach(Auth::user()->followers as $follower)
+        // {
+        //     foreach($follower->posts as $post)
+        //     $tmpPosts->push($post);
+        //     // dd($follower->posts);
+        // }
+        foreach(Auth::user()->followedUsers as $follower)
+        {
+            foreach($follower->posts as $post)
+            $tmpPosts->push($post);
+            // $smth = $tmpPosts->intersect($follower->post);
+            //ipang merge ang mga mapareho in respect sa posts sa user and his followers to the posts sa mga followed user
+            // dd($follower->posts);
+        }
+        foreach(Auth::user()->followedInstitutions as $institution)
+        {
+            foreach($institution->admins as $admin)
+            {
+                foreach($admin->posts as $post)
+                {
+                    $tmpPosts->push($post);
+                }
+            }
+        }
     	$posts = array();
     	$counter = 0;
         //pinnedpost
@@ -23,19 +50,22 @@ class PostController extends Controller
         //return pinned post
         //else 
         //pinned post is null
-
-    	foreach($tmpPosts as $tmpPost) 
+        $sortedTmpPosts = $tmpPosts->sortByDesc('created_at');
+    	foreach($sortedTmpPosts as $tmpPost) 
     	{
+            $tmpPicture = $tmpPost->picture;
+            $path = str_replace('localhost','172.17.2.90',$tmpPicture);
     		$posts[$counter]['id'] = $tmpPost->id;
     		$posts[$counter]['message'] = $tmpPost->message;
-    		$posts[$counter]['picture'] = $tmpPost->picture;
+    		$posts[$counter]['picture'] = $path;
     		$posts[$counter]['created_at'] = $tmpPost->created_at;
             $posts[$counter]['class'] = substr($tmpPost->reference_type,4);
             $posts[$counter]['class_id'] = $tmpPost->reference_id;
     		$initiated = $tmpPost->initiated;
             $posts[$counter]['initiated']['id'] = $initiated->id;
     		$posts[$counter]['initiated']['name'] =  $initiated->name();
-    		$posts[$counter]['initiated']['picture'] = $initiated->picture();
+            $path = str_replace('localhost','172.17.2.90',$initiated->picture());
+    		$posts[$counter]['initiated']['picture'] = $path;
     		$posts[$counter]['reference']['id'] = $tmpPost->reference->id;
     		$posts[$counter]['reference']['type'] = $tmpPost->reference_type;
             $posts[$counter]['likes'] = count($tmpPost->likes);
@@ -82,6 +112,18 @@ class PostController extends Controller
                 )); 
             }
         }
+        else
+        {
+            return response()->json(array(
+            'pinnedPost' => null,
+            'posts' => $posts,
+            'status' => 'Successful',
+            'message' => 'Retrieved all posts'
+            ));
+        }
+        
+        $path = str_replace('localhost','172.17.2.90',$tmpPinnedPost->post->picture);
+        $tmpPinnedPost->post->picture = $path;
         $lastRequest = DonateRequest::where('status','Done')->where('initiated_by',Auth::user()->id)->orderBy('created_at','desc')->first();
         // dd($lastRequest->user->id);
         if($lastRequest)
@@ -120,7 +162,6 @@ class PostController extends Controller
         }
         else
         {
-            // eligible to donate
             return response()->json(array(
             'pinnedPost' => [
                     'post' => $tmpPinnedPost,

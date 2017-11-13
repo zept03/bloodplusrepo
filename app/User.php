@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -81,7 +82,6 @@ class User extends Authenticatable
     {
     return $this->morphedByMany('App\Institution', 'follower','followers')->wherePivot('status', 1)->withTimestamps();
     }
-
     public function super()
     {
         return $this->hasOne('App\God', 'user_id','id');

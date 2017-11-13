@@ -77,7 +77,7 @@ class SocialController extends Controller
             else
             {
                 $mutualFollowers = $userFollowers->intersect($authFollowees);
-                $notMutualFollowers = $userFollowees->diff($mutualFollowers);    
+                $notMutualFollowers = $userFollowers->diff($mutualFollowers);    
             }
             if(count($userFollowees) == 0)
             {
@@ -89,6 +89,7 @@ class SocialController extends Controller
                 $notMutualFollowing = $userFollowees->diff($mutualFollowing);    
             }
             // dd($mutualFollowing);
+            // dd($notMutualFollowers);
             return view('user.viewprofile',compact('user','donateCount','logs','followees','followers','mutualFollowers','notMutualFollowers','mutualFollowing','notMutualFollowing','posts','following'));
         }
         catch(\Exception $e)

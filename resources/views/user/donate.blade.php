@@ -106,7 +106,7 @@
 						</div>
 						<div class="col-md-12">
 						<br>
-							<center><input type ="submit"  class="btn req-blood-btn" value = "REQUEST BLOOD"> </center>
+							<center><input type ="submit"  class="btn req-blood-btn" value = "DOANTE BLOOD"> </center>
 						</div>
 					</div>
 					</form>

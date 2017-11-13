@@ -26,12 +26,16 @@ class AdminController extends Controller
 
     public function index()
     {
-        // dd(BloodRequest::with(['institute','details'])->first());
+        //get new donors since last week.
+        $nxt = new Carbon('last sunday');
+        // dd($nxt->toDateTimeString());
+        $newlyDonors = count(Auth::guard('web_admin')->user()->institute->newlyFollowedInstitutions);
+        // dd($newlyDonors);
         $bloodDonors = count(User::where('status','active')->get());
         $campaignCount = count(Campaign::where('status','Done')->get());
         $logs = Log::where('initiated_id',Auth::guard('web_admin')->user()->id)->orderBy('created_at','desc')->paginate(10);
 
-    	return view('admin.dashboard',compact('logs','campaignCount'));
+    	return view('admin.dashboard',compact('logs','campaignCount','newlyDonors','nxt'));
     }
 
     public function request() {
@@ -53,6 +57,7 @@ class AdminController extends Controller
         $tmpDonors = Auth::guard('web_admin')->user()->institute->followers;
         $donors = array();
         $count = 0;
+        // dd($donors);
         foreach($tmpDonors as $donor)
         {
             // dd($donor->name());
@@ -62,7 +67,7 @@ class AdminController extends Controller
             $donors[$count]['gender'] =  $donor->gender;
             $donors[$count]['contact'] = '0'.$donor->contactinfo;
             $donors[$count]['email'] = $donor->email;
-            $donors[$count]['joinDate'] = $donor->created_at->format('F d Y');
+            $donors[$count]['joinDate'] = $donor->pivot->created_at->format('F d Y');
 
             $lastRequest = DonateRequest::where('status','Done')->where('initiated_by',$donor->id)->orderBy('appointment_time','desc')->first();
             if($lastRequest)
@@ -182,13 +187,18 @@ class AdminController extends Controller
         
         // notify uban donors
         $sameBloodTypeUsers = User::with(['donations' => function ($query) {
+        //latest niyang donation that is not cancelled
             $query->where('status','!=','Cancelled')->orderBy('created_at','desc')->first();
-        }])->where('bloodType',$bloodRequest->details->blood_type)->get();
+        }])->whereHas('followedInstitutions', function($query) {
+            $query->where('id',Auth::guard('web_admin')->user()->institution_id);
+        })->where('bloodType','B+')->get();
+
         foreach($sameBloodTypeUsers as $user)
         {
             if($user->id != $bloodRequest->initiated_by)
             {
-            if(count($user->donations) != 0){
+            if(count($user->donations) != 0)
+            {
                 if($user->donations->first()->status == 'Done')
                 {
                     $date = $user->donations->first()->appointment_time;
@@ -207,19 +217,19 @@ class AdminController extends Controller
             {
                 $user->notify(new BloodRequestNotification($class,$usersent,'Someone is in need of your blood. Please donate to Philippine Red Cross'));
             }
-        }
+            }
         }
 
         //textblast here 
 
-        return redirect('/admin/request')->with('status', 'Request successfully accepted. Text blast sent to donors!!');
+        return redirect('/admin/request')->with('status', 'Request successfully accepted. Notified eligible donors!');
     }
 
     public function claimRequest(Request $request)
     {
         // dd(Carbon::now()->toDateTimeString());
-        return response()->json($request->input());
-        $bloodRequest = BloodRequest::find($request->input('id'));
+        // return response()->json($request->input());
+        $bloodRequest = BloodRequest::find($request->input('acceptId'));
         $user = $bloodRequest->user;
         $class = array("class" => "App\BloodRequest",
             "id" => $bloodRequest->id,
@@ -228,7 +238,7 @@ class AdminController extends Controller
                 "picture" => Auth::guard('web_admin')->user()->institute->picture());
 
         $user->notify(new BloodRequestNotification($class,$usersent,'Your blood bags are ready to be claimed. Please come as soon as possible.'));
-        return redirect('/admin/request')->with('status', 'User successfully notified!');
+        return response()->json(['status' => 'User successfully notified!']);
     }
 
     public function showCompleteRequest(Request $request, BloodRequest $bloodRequest)
@@ -242,7 +252,7 @@ class AdminController extends Controller
     }
     public function updateToDone(Request $request, BloodRequest $bloodRequest)
     {
-        dd($request->input('serial'));
+        // dd($request->input('serial'));
         // $bloodRequest = BloodRequest::find($request->input('id'));
         $updates = $bloodRequest->updates;              
         $updates[] = 'The blood request is completed and finished';   

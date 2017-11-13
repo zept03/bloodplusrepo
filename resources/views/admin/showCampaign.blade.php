@@ -4,7 +4,7 @@
 
 @section('content_header')
       <h1>
-        Campaign
+        &nbsp
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -20,10 +20,6 @@
     {{ session('status') }}
   </div>
 
-  <script type ="text/javascript">
-  var message = document.getElementById('alertmsg').innerHTML;
-  alert(message);
-  </script>
 @endif
     <!-- Main content -->
       <!-- Small boxes (Stat box) -->
@@ -95,6 +91,12 @@
     <script type="text/javascript" src="{{asset('theme/js/DataTables/media/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{ asset('theme/js/bootstrap-datepicker.js') }}"></script>
     <script src="{{ asset('theme/js/dashboard.js') }}"></script>
+    <script>
+      $(document).ready(function() {
 
-
+      var message = document.getElementById('alertmsg').innerHTML;
+      if(message != '')
+      alert(message);
+      });
+    </script>
 @stop

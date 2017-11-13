@@ -29,6 +29,19 @@ class AuthenticationController extends Controller
         }
         // $user='abcdefg';
         $user = $this->create($request->all());
+        if($user->gender == 'Male;')
+        {
+            $user->update([
+                'picture' => asset('storage/avatars/profile/man.png')
+                ]);
+        }
+        else
+        {
+            $user->update([
+                'picture' => asset('storage/avatars/profile/woman.png')
+                ]);
+        }   
+
     	// Auth::guard('web')->attempt($user);
         if($user)
         {
@@ -38,6 +51,9 @@ class AuthenticationController extends Controller
             'reference_type' => 'User',
             'reference_id' => $user->id
         ]);
+        //follow red cross.
+        $user->followedInstitutions()->attach('51B64E1');
+
     	$message = array('user' => $user, 'status' => 200, 'message' => 'Successfully Registered');
         }   
         else
@@ -51,8 +67,12 @@ class AuthenticationController extends Controller
     	$email = $request->input('email');
     	$password = $request->input('password');
     	if(Auth::guard('web')->attempt(['email' => $email, 'password' => $password])) {
-            Auth::user()->load('notifications');
+            $user = Auth::user()->load('notifications');
+            $path = str_replace('localhost','172.17.2.90',$user->picture);
+            $user->picture = $path;
+
             $message = array('user' => Auth::user(), 'status' => 200, 'message' => 'Successful Login');
+
             return response()->json($message);
         }
         else

@@ -19,10 +19,6 @@
     {{ session('status') }}
   </div>
 
-  <script type ="text/javascript">
-  var message = document.getElementById('alertmsg').innerHTML;
-  alert(message);
-  </script>
 @endif
     <!-- Main content -->
       <!-- Small boxes (Stat box) -->
@@ -435,9 +431,10 @@
     <script> 
       $(document).ready(function() {
 
-      $( "#donateDate" ).datepicker();
+        $( "#donateDate" ).datepicker();
       $.fn.dataTable.moment( 'MMMM DD, YYYY' );
       $.fn.dataTable.moment( 'HH:MM AA' );  
+
 
       $('#pending_requests').DataTable( {
         "bLengthChange": false,
@@ -446,7 +443,7 @@
       });
       $('#ongoing_requests').DataTable();
       $('#done_requests').DataTable( {
-        "order": [[ 5, "desc"]]
+        "order": [[ 5, "asc"]]
       });
       $('#declined_requests').DataTable({
         "order": [[ 5, "desc"]]
@@ -456,6 +453,11 @@
         "bInfo": false,
         "order": [[ 5, "desc"]]
       });
+      var message = document.getElementById('alertmsg').innerHTML;
+      if(message != '')
+      {
+      alert(message);
+      }
       });
     </script>
 @stop

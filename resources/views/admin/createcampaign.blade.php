@@ -20,11 +20,6 @@
     {{ session('status') }}
   </div>
 
-  <script type ="text/javascript">
-  var message = document.getElementById('alertmsg').innerHTML;
-  alert(message);
-  </script>
-
 @endif
 <div class="row">
   <div class="col-xs-12">

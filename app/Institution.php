@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Institution extends Model
 {
@@ -26,6 +27,15 @@ class Institution extends Model
     public function followers() {
         return $this->morphToMany('App\User', 'follower', 'followers')->wherePivot('status', 1)->withTimestamps();
     }
+    public function newlyFollowedInstitutions()
+    {
+
+        $lastWeek = new Carbon('last sunday');
+        $lastWeekStr = $lastWeek->toDateTimeString();
+        $nextWeek = new Carbon('next sunday');
+        $nextWeekStr = $lastWeek->toDateTimeString();
+        return $this->morphToMany('App\User', 'follower','followers')->wherePivot('status', 1)->wherePivot('created_at','>',$lastWeek)->wherePivot('created_at','<',$nextWeek);
+    }
     public function name()
     {
         return $this->institution;
@@ -38,4 +48,6 @@ class Institution extends Model
     {
         return asset('assets/img/321.png');
     }
+
+    
 }

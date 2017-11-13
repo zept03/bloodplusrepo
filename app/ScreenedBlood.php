@@ -21,5 +21,17 @@ class ScreenedBlood extends Model
    	public function components() {
    		return $this->hasMany('App\BloodInventory','screened_blood_id','id');
    	}
+
+      public function componentsToString()
+      {
+         $components = $this->components;
+         $string = "";
+         foreach($components as $component)
+         {
+            $bloodType = $component->bloodType;
+            $string = $string.$bloodType->category.', ';
+         }
+         return $string;
+      }
 }
 

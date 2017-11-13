@@ -66,6 +66,7 @@ class SocialController extends Controller
     {
     	// dd(Auth::user()->id);
     	$followers = Auth::user()->followers;
+        
         if($user->id == Auth::user()->id)
         {
             return response()->json(['status' => 'Error Error',
@@ -105,7 +106,8 @@ class SocialController extends Controller
                 {
                     $mutuals[$count]['id'] = $mutual->id;
                     $mutuals[$count]['name'] = $mutual->name();
-                    $mutuals[$count]['picture'] = $mutual->picture();
+                    $path = str_replace('localhost','172.17.2.90',$mutual->picture());
+                    $mutuals[$count]['picture'] = $path;
                     $mutuals[$count]['banner'] = $mutual->banner();
                     $count++;
                 }
@@ -118,7 +120,8 @@ class SocialController extends Controller
                 {
                     $notMutuals[$count]['id'] = $notMutual->id;
                     $notMutuals[$count]['name'] = $notMutual->name();
-                    $notMutuals[$count]['picture'] = $notMutual->picture();
+                    $path = str_replace('localhost','172.17.2.90',$$notMutual->picture());
+                    $notMutuals[$count]['picture'] = $path;
                     $notMutuals[$count]['banner'] = $notMutual->banner();
                     $count++;
                 }
@@ -145,7 +148,8 @@ class SocialController extends Controller
             {
                 $following[$count]['id'] = $followings->id;
                 $following[$count]['name'] = $followings->name();
-                $following[$count]['picture'] = $followings->picture();
+                $path = str_replace('localhost','172.17.2.90',$followings->picture());
+                $following[$count]['picture'] = $path;
                 $following[$count]['banner'] = $followings->banner();
                 $count++;
             }
@@ -211,6 +215,8 @@ class SocialController extends Controller
             'message' => 'User does not exist']);
             }
         }
+        $path = str_replace('localhost','172.17.2.90',$model->picture);
+        $model->picture = $path;
         return response()->json(['user' => $model,
             'class' => $class,
             'status' => 'Succcessful',

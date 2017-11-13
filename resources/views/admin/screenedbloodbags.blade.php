@@ -8,10 +8,6 @@
     {{ session('status') }}
   </div>
 
-  <script type ="text/javascript">
-  var message = document.getElementById('alertmsg').innerHTML;
-  alert(message);
-  </script>
 @endif
 
 <div class="row">
@@ -49,7 +45,7 @@
                   <button type="button" value = "{{$screenedBlood->donation->id}}" class="btn-s btn-info"><i class="fa fa-eye"></i></button>
                   </a>
                   @if($screenedBlood->bag_component == '450s')
-                  <button type="button" value = "{{$screenedBlood->donation->id}}" class="btn-s btn-success screen450s"><i class="fa fa-check"></i></button>
+                  <button type="button" value = "{{$screenedBlood->id}}" class="btn-s btn-success screen450s"><i class="fa fa-check"></i></button>
                   @else
                   <a href ="{{url('admin/bloodbags/'.$screenedBlood->id.'/screen')}}">
                   <button type="button" value = "{{$screenedBlood->donation->id}}" class="btn-s btn-success"><i class="fa fa-check"></i></button>
@@ -75,7 +71,7 @@
         <span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">Screen Blood Bag</h4>
       </div>
-      <form id ="acceptForm" role="form" method="POST" action="{{ url('/admin/request/accept') }}"> 
+      <form id ="acceptForm" role="form" method="POST"> 
       <div class="modal-body">
         <div id = "view" class="bootstrap-timepicker"> 
             {!! csrf_field() !!}
@@ -87,7 +83,7 @@
           </div>
         </div>
       <div class="modal-footer">
-        <button type ="button" class="btn btn-danger replybtn" data-dismiss="modal">Confirm</button> 
+        <button type ="submit" class="btn btn-danger screenSubmit" data-dismiss="modal">Confirm</button> 
         <button type="button" data-dismiss="modal" class="btn btn-danger">Close</button>
       </div>
       </form>
@@ -119,4 +115,12 @@
       });
 
     </script>
+    <script>
+      $(document).ready(function() {
+          var message = document.getElementById('alertmsg').innerHTML;
+          if(message != '')
+          alert(message);
+      });
+    </script>
+
 @stop

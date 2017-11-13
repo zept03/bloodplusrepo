@@ -17,11 +17,6 @@
   <div id = "alertmsg" style="display:none">
     {{ session('status') }}
   </div>
-
-  <script type ="text/javascript">
-  var message = document.getElementById('alertmsg').innerHTML;
-  alert(message);
-  </script>
 @endif
     <!-- Main content -->
       <!-- Small boxes (Stat box) -->
@@ -36,14 +31,14 @@
       <div class="box-body">
       <div class="nav-tabs-custom">
       <ul class="nav nav-tabs">
-        <li class="active"><a href="#tab_1" data-toggle="tab">Pending</a></li>
-        <li><a href="#tab_2" data-toggle="tab">Ongoing</a></li>
+        <li class="active"><a href="#tab_1" data-toggle="tab">Ongoing</a></li>
+        <li><a href="#tab_2" data-toggle="tab">Upcoming</a></li>
         <li><a href="#tab_3" data-toggle="tab">Done</a></li>
       </ul>
       <div class="tab-content"> 
       <div class="tab-pane active" id = "tab_1">
       <div id = "app" class="box-body table-responsive no-padding">
-        <table id = "pending_campaigns" class="table table-hover ">
+        <table id = "ongoing_campaigns" class="table table-hover ">
           <thead>
             <th>ID</th>
             <th>Campaign Name</th>
@@ -54,8 +49,8 @@
             <th>Actions</th>
           </thead>
           <tbody>
-          @foreach($pendingCampaigns as $campaign)
-            @if($campaign->status == 'Pending')
+          @foreach($ongoingCampaigns as $campaign)
+            @if($campaign->status == 'Ongoing')
               <tr>
                 <td>{{$campaign->id}}</td>
                 <td>{{$campaign->name}}</td>
@@ -74,7 +69,7 @@
       </div>
       <div class="tab-pane" id = "tab_2">
       <div id = "app" class="box-body table-responsive no-padding">
-        <table id = "ongoing_campaigns" class="table table-hover ">
+        <table id = "pending_campaigns" class="table table-hover ">
           <thead>
             <th>ID</th>
             <th>Campaign Name</th>
@@ -85,8 +80,8 @@
             <th>Actions</th>
           </thead>
           <tbody>
-          @foreach($ongoingCampaigns as $campaign)
-            @if($campaign->status == 'Ongoing')
+          @foreach($pendingCampaigns as $campaign)
+            @if($campaign->status == 'Pending')
               <tr>
                 <td>{{$campaign->id}}</td>
                 <td>{{$campaign->name}}</td>
@@ -268,18 +263,22 @@
     <script type="text/javascript" src="{{asset('theme/js/DataTables/media/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{ asset('theme/js/bootstrap-datepicker.js') }}"></script>
     <script src="{{ asset('theme/js/dashboard.js') }}"></script>
-    <script src ="{{ asset('js/mom.js')}}"></script>
-    <script src ="{{ asset('js/datatablesmom.js')}}"></script>
+    <script src ="{{ asset('js/moment.min.js')}}"></script>
+    <script src ="{{ asset('js/datetime-moment.js')}}"></script>
     <script> 
 
       $(document).ready(function() {
-      // $.fn.dataTable.moment( 'MMMM Do YYYY' );
-      // $.fn.dataTable.moment( 'h:mm A' );
-
-      $('#pending_campaigns').DataTable();
-      $('#ongoing_campaigns').DataTable();
-      $('#history_campaigns').DataTable();
-      $('#declined_requests').DataTable();
+      $.fn.dataTable.moment( 'h:mm A' );
+    
+      $('#pending_campaigns').DataTable({
+        "order": [[ 3, "asc"]]
+      });
+      $('#ongoing_campaigns').DataTable({
+        "order": [[ 3, "asc"]]
+      });
+      $('#history_campaigns').DataTable({
+        "order": [[ 3, "asc"]]
+      });
       $( "#campaignDate" ).datepicker();
       });
     </script>
@@ -308,6 +307,11 @@
     $(".createCampaign").on("click",function () {
       $("#createCampaign").modal();
       initialize();
+
+            var message = document.getElementById('alertmsg').innerHTML;
+      if(message != '')
+      alert(message);
+
     });
 </script>
 @stop

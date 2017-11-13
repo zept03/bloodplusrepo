@@ -214,6 +214,7 @@
 									</div>
 								</div>
 							</div>
+							</div>
 							<div class="tab-pane" id="following-tab">
 								<div class="container-fluid">
 									<!-- starts here ang sidebar profile -->
@@ -258,6 +259,7 @@
 										</div>
 									</div>
 								</div>	
+							</div>
 							</div>
 							<div class="tab-pane" id="edit-profile-tab">
 								<div class="container-fluid">

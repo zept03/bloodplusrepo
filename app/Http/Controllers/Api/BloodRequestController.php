@@ -43,6 +43,15 @@ class BloodRequestController extends Controller
             $message = $validator->messages();
             return response()->json($message);
         }
+        // $name = $request->input('bloodType');
+        // // dd($request->input('bloodCategory'));
+        // // dd($name);
+        // // dd(BloodType::all()->first()->bloodCategory->first());
+        // $bloodBag = BloodType::whereHas('bloodCategory', function ($query) use ($name)
+        //     {
+        //         $query->where('name',$name);
+        //     })->where('category',$request->input('bloodCategory'))->first();
+        // dd($bloodBag);
         $bloodRequest = BloodRequest::create([
             'id' => $str = strtoupper(substr(sha1(mt_rand() . microtime()), mt_rand(0,35), 7)),
             'patient_name' => ucwords($request->input('pname')),
@@ -55,15 +64,15 @@ class BloodRequestController extends Controller
 
         $name = $request->input('bloodType');
 
-
+        // dd($name);
         $bloodBag = BloodType::whereHas('bloodCategory', function ($query) use ($name)
             {
                 $query->where('name',$name);
             })->where('category',$request->input('bloodCategory'))->first();
         // dd($bloodBag);
+
         $bloodRequestDetail = BloodRequestDetail::create([
             'blood_request_id' => $bloodRequest->id,
-            'bloodbag_id' => $bloodBag->id,
             'blood_type' => $request->input('bloodType'),
             'blood_category' => $request->input('bloodCategory'),
             'units' => $request->input('units'),
@@ -105,7 +114,7 @@ class BloodRequestController extends Controller
 
     public function getOngoingBloodRequest() 
     {
-   		$bloodRequest = BloodRequest::with(['institute','details'])->where('status', '!=','Done')->where('initiated_by',Auth::user()->id)->first();
+   		$bloodRequest = BloodRequest::with(['institute','details'])->whereNotIn('status',['Done','Cancelled'])->where('initiated_by',Auth::user()->id)->first();  
    		if($bloodRequest)
    		return response()->json([
    			'bloodRequest' => $bloodRequest,

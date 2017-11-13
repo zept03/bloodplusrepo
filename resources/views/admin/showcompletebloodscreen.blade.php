@@ -8,10 +8,6 @@
     {{ session('status') }}
   </div>
 
-  <script type ="text/javascript">
-  var message = document.getElementById('alertmsg').innerHTML;
-  alert(message);
-  </script>
 @endif
 
 <div class="row">
@@ -122,13 +118,18 @@
         $(".reactive").change(function () {
           if(this.value == 'true')
           {
-          $(".diagnose").attr("disabled",false);  
+            $(".diagnose").attr("disabled",false);  
           }
           else
           {
-          $(".diagnose").attr("disabled",true);
+            $(".diagnose").attr("disabled",true);
+            $(".diagnose").prop("selectedIndex", 0);
           }
         });
+
+        var message = document.getElementById('alertmsg').innerHTML;
+          if(message != '')
+          alert(message);
       });
     </script>
 @stop

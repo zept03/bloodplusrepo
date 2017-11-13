@@ -21,14 +21,13 @@
           <!-- small box -->
           <div class="small-box bg-aqua">
             <div class="inner">
-              <h3>12</h3>
+              <h3>{{$newlyDonors}}</h3>
 
-              <p>Recent Donors</p>
+              <p>Recent Donors<br>({{$nxt->format(' F d, Y ')}})</p>
             </div>
             <div class="icon">
               <i class="ion ion-person"></i>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
@@ -38,12 +37,11 @@
             <div class="inner">
               <h3>43<sup style="font-size: 20px">%</sup></h3>
 
-              <p>Retention Rate</p>
+              <p>Retention Rate<br><br></p>
             </div>
             <div class="icon">
               <i class="ion-ios-pulse-strong"></i>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
@@ -51,14 +49,13 @@
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner">	
-              <h3>63</h3>
+              <h3>{{count(Auth::guard('web_admin')->user()->institute->followers)}}</h3>
 
-              <p>Blood Donors</p>
+              <p>Active Blood Donors<br><br></p>
             </div>
             <div class="icon">
               <i class="ion ion-person-stalker"></i>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
@@ -68,12 +65,11 @@
             <div class="inner">
               <h3>{{$campaignCount}}</h3>
 
-              <p>Finished Campaign</p>
+              <p>Finished Campaigns<br><br></p>
             </div>
             <div class="icon">
               <i class="ion ion-android-globe"></i>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->

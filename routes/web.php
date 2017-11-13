@@ -29,9 +29,24 @@ use App\BloodInventory;
 |
 */
 Route::get('/abcdefg',function (){
+
+    // dd(Auth::user()->with(['followedInstitutions' => function ($query) {
+        // $query->where('created_at')
+    // }]));
     // $collection = BloodType::find('5B782AA')->nonReactive();
     // dd($collection);
-    $exitCode = Artisan::call('queue:work');
+    // dd(Auth::guard('web_admin')->user());
+    
+    
+    // $sameBloodTypeUsers = User::with(['donations' => function ($query) {
+    //     //latest niyang donation that is not cancelled
+    //         $query->where('status','!=','Cancelled')->orderBy('created_at','desc')->first();
+    //     }])->whereHas('followedInstitutions', function($query) {
+    //         $query->where('id',Auth::guard('web_admin')->user()->institution_id);
+    //     })->where('bloodType','B+')->get();
+
+    // dd($sameBloodTypeUsers);
+    // $exitCode = Artisan::call('queue:work');
     // $bloodType = BloodType::first();
     // dd($bloodType->bloodCategory);
     // $exitCode = Artisan::call('cache:clear');

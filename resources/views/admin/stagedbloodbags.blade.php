@@ -1,24 +1,19 @@
 @extends('adminlte::page')
 
-@section('title', 'Screen Blood Bag')
+@section('title', 'Blood Bag Screening')
 
 @section('content') 
 @if (session('status'))
   <div id = "alertmsg" style="display:none">
     {{ session('status') }}
   </div>
-
-  <script type ="text/javascript">
-  var message = document.getElementById('alertmsg').innerHTML;
-  alert(message);
-  </script>
 @endif
 
 <div class="row">
   <div class="col-xs-12">
     <div class="box box-info  ">
       <div class="box-header">
-        <h3 class="box-title">Staged Blood Bags</h3>
+        <h3 class="box-title">Blood Bags Screening</h3>
       </div>
       <div class="box-body table-responsive">
        <table id = "pending_screening" class="table table-hover ">
@@ -29,6 +24,7 @@
               <th>Blood Type</th>  
               <th>Blood Bag Brand</th>
               <th>Blood Bag Type</th>
+              <th>Blood Bag Components</th>
               <th>Date Extracted</th>
               <th>Actions</th>
             </tr>
@@ -41,6 +37,7 @@
                 <td>{{$screenedBlood->donation->user->bloodType}}</td>
                 <td>{{$screenedBlood->bag_type}}</td>
                 <td>{{$screenedBlood->bag_component}}</td>
+                <td>{{$screenedBlood->componentsToString()}}</td>
                 <td>{{$screenedBlood->created_at}}</td>
                 <td>
                   <a href ="{{url('admin/donate/'.$screenedBlood->donation->id)}}">
@@ -84,5 +81,8 @@
       $('#pending_screening').DataTable();
       });
 
+      var message = document.getElementById('alertmsg').innerHTML;
+      if(message != '')
+      alert(message);
     </script>
 @stop

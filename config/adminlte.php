@@ -147,7 +147,7 @@ return [
                     'url'  => 'admin/bloodbags',
                 ],
                 [
-                    'text' => 'Screened Blood Bag',
+                    'text' => 'Blood Bag Screening',
                     'url' => 'admin/bloodbags/stagedbloodbag',
                 ]
             ]

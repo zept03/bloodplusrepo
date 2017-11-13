@@ -135,7 +135,11 @@
 										<div class="well" style="background: #fff; max-height: 740px; overflow-y: scroll;">
 										<div class="row">
 											@if($followers)
+											<?php $count = 0 ?>
 											@forelse($mutualFollowers as $follower)
+											@if($count % 3 == 0)
+											<div class ="row">
+											@endif
 											<div class="col-md-4">
 								                <div class="card">
 							               			@if($follower->banner())
@@ -154,9 +158,16 @@
 								                    </div>
 								                </div>
 								            </div>
+								            <?php $count++?>
+								            @if($count % 3 == 0)
+											</div>
+											@endif
 								            @empty
 								            @endforelse
 								            @forelse($notMutualFollowers as $follower)
+								            @if($count % 3 == 0)
+											<div class ="row">
+											@endif
 											<div class="col-md-4">
 								                <div class="card">
 							               			@if($follower->banner())
@@ -175,6 +186,10 @@
 								                    </div>
 								                </div>
 								            </div>
+								            <?php $count++?>
+								            @if($count % 3 == 0)
+											</div>
+											@endif
 								            @empty
 								            @endforelse
 								            @else
@@ -195,8 +210,13 @@
 
 										<div class="well" style="background: #fff; max-height: 740px; overflow-y: scroll;">
 										<div class="row">
+
 											@if($followees)
+											<?php $count = 0 ?>
 											@forelse($mutualFollowing as $followee)
+											@if($count % 3 == 0)
+											<div class ="row">
+											@endif
 											<div class="col-md-4">
 								                <div class="card">
 							               			@if($followee->banner())
@@ -217,9 +237,16 @@
 								                    </div>
 								                </div>
 								            </div>
+								            <?php $count++?>
+								            @if($count % 3 == 0)
+											</div>
+											@endif
 								            @empty
 								            @endforelse
 								            @forelse($notMutualFollowing as $followee)
+								            @if($count % 3 == 0)
+											<div class ="row">
+											@endif
 											<div class="col-md-4">
 								                <div class="card">
 							               			@if($followee->banner())
@@ -238,6 +265,10 @@
 								                    </div>
 								                </div>
 								            </div>
+								            <?php $count++?>
+								            @if($count % 3 == 0)
+											</div>
+											@endif
 								            @empty
 								            @endforelse
 								            @else

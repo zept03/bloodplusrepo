@@ -27,10 +27,41 @@ class BloodPlusController extends Controller
 
     public function index()
     {
-        $tmpPosts = Post::with(['initiated','reference'])->orderBy('created_at','desc')->get();
+        $tmpPosts = Auth::user()->posts;
+        // dd($tmpPosts);
+        $followers = Auth::user()->load(['followers.posts','followedUsers.posts','followedInstitutions.admins.posts']);
+        // dd(Auth::user());
+        // foreach(Auth::user()->followers as $follower)
+        // {
+        //     foreach($follower->posts as $post)
+        //     $tmpPosts->push($post);
+        //     // dd($follower->posts);
+        // }
+        foreach(Auth::user()->followedUsers as $follower)
+        {
+            foreach($follower->posts as $post)
+            $tmpPosts->push($post);
+            // $smth = $tmpPosts->intersect($follower->post);
+            //ipang merge ang mga mapareho in respect sa posts sa user and his followers to the posts sa mga followed user
+            // dd($follower->posts);
+        }
+        foreach(Auth::user()->followedInstitutions as $institution)
+        {
+            foreach($institution->admins as $admin)
+            {
+                foreach($admin->posts as $post)
+                {
+                    $tmpPosts->push($post);
+                }
+            }
+        }
+        // foreach
+        // dd($smth);
+        // $tmpPosts = $tmpPosts->intersect(Auth::user()->load(['followers']));
         $posts = array();
         $counter = 0;
-        foreach($tmpPosts as $tmpPost)
+        $sortedTmpPosts = $tmpPosts->sortByDesc('created_at');
+        foreach($sortedTmpPosts as $tmpPost)
         {
             $posts[$counter]['id'] = $tmpPost->id;
             $posts[$counter]['class'] = substr($tmpPost->reference_type,4);
@@ -53,6 +84,7 @@ class BloodPlusController extends Controller
             }
             $counter++;
         }
+        // dd($tmpPosts->first()->likes);
     $pinnedPost = null;
         
         $onGoingDonation = DonateRequest::where('initiated_by',Auth::user()->id)->whereIn('status',['Pending','Ongoing'])->get();
@@ -233,6 +265,7 @@ class BloodPlusController extends Controller
             $followers = true;
         else
             $followers = false;
+        // dd($followees);
         return view('user.profile',compact('user','donateCount','logs','followees','mutuals','notMutuals','followers','posts','requestCount','donateCount'));
     }
     public function verify($token)

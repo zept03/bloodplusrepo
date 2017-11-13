@@ -40,7 +40,7 @@ class AdminInventoryController extends Controller
         $count = count($qtyInv->inventory);
         // dd($count);
         // $string = null;
-      	if($count > $request->details->units)
+      	if($count >= $request->details->units)
       	{
       		$string[] = "Blood Inventory capable for this request(count is: ".$count.").";
       		$string[] = "Recommended: Accept and finish blood request";
@@ -111,7 +111,7 @@ class AdminInventoryController extends Controller
       }
       $bloodbag->update(['status' => 'Staged']);
       // dd($request->input('component'));
-      return redirect('/admin/bloodbags')->with('status','Successfully staged the blood bag');  
+      return redirect('/admin/bloodbags')->with('status','Successfully started screening the blood bag');  
 
     }
 
@@ -145,6 +145,7 @@ class AdminInventoryController extends Controller
     }
     public function completeSingleScreenedBlood(Request $request, ScreenedBlood $staged)
     {
+      // dd($staged);
 
       if($request->input('reactive') == 'true')
       {
@@ -165,7 +166,7 @@ class AdminInventoryController extends Controller
         $staged->components()->update(['status' => 'Available']);
 
       }
-      return redirect('/admin/bloodbags/stagedbloodbag')->with('status','Successfully screened the blood bag');  
+      return redirect('/admin/bloodbags/stagedbloodbag')->with('status','Successfully screened the blood bag and added to inventory.');  
       // change to reactive or non reactive
 
       // if reactive give the diagnose.

@@ -7,11 +7,6 @@
   <div id = "alertmsg" style="display:none">
     {{ session('status') }}
   </div>
-
-  <script type ="text/javascript">
-  var message = document.getElementById('alertmsg').innerHTML;
-  alert(message);
-  </script>
 @endif
 
 <div class="row">
@@ -234,7 +229,7 @@
     <script> 
       $(document).ready(function() {
 
-      $( ".first-comp" ).change(function() {
+        $( ".first-comp" ).change(function() {
         if(this.value == 'Packed RBC' || this.value == 'Washed RBC') {
           var option = $('<option></option>').attr("value", "Platelet").text("Platelet");
             $(".second-comp").empty().append(option);
@@ -248,6 +243,9 @@
           $(".second-comp").empty().append(option, option1);
           
       });
+        var message = document.getElementById('alertmsg').innerHTML;
+          if(message != '')
+          alert(message);
       });
     </script>
 @stop

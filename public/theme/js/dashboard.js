@@ -59,7 +59,7 @@ $(function () {
   $(".claimRequest").on("click",function () {
     // console.log($(this).val());
     // console.log('abc');
-    alert($(this).val());
+    // alert($(this).val());
     var $csrf_token = $('meta[name="csrf-token"]').attr('content');
     $.ajax({
           type: 'POST',
@@ -71,6 +71,7 @@ $(function () {
           success: function(response)
           {
             console.log(response);
+            alert("You have successfully notified the user");
           },
           error: function(a){
           console.log(a.errorThrown);
@@ -236,5 +237,9 @@ $(function () {
     // console.log($(this).data("type"));
     $("#acceptModal").modal();
   
+  });
+
+  $(".screenSubmit").on("click", function () {
+    $("#acceptForm").submit();
   });
 });

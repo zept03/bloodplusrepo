@@ -228,7 +228,7 @@ class AdminDonateController extends Controller
         'status' => 'Pending'
         ]);
 
-        return redirect('/admin/donate')->with('status','You successfully completed the blood donation. You can now begin to screen the blood bag');
+        return redirect('/admin/bloodbags')->with('status','You successfully completed the blood donation. You can now begin to screen the blood bag');
 
     }    //
     public function acceptDonationRequestView(Request $request, DonateRequest $donate)
