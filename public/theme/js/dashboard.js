@@ -63,7 +63,7 @@ $(function () {
     var $csrf_token = $('meta[name="csrf-token"]').attr('content');
     $.ajax({
           type: 'POST',
-          url: '/bloodplusrepo/public/admin/request/claim',
+          url: '/admin/request/claim',
           data: {
             '_token': $csrf_token,
             'acceptId': $(this).val()
@@ -128,7 +128,7 @@ $(function () {
   });
   $(".replybtn").on("click",function () {
     $id = $("#acceptForm input[name=id]").val();
-    window.location.href = "/bloodplusrepo/public/admin/request/"+$id+"/accept";
+    window.location.href = "/admin/request/"+$id+"/accept";
     // console.log($id);
     // $("#replyForm input[name=id]").val($id);
     // $("#replyForm").submit();
@@ -183,7 +183,7 @@ $(function () {
 
   $(".something").on('click', function () {
     var id =$(this).val();
-    window.location.href = "/bloodplusrepo/public/admin/request/"+id+"/complete";
+    window.location.href = "/admin/request/"+id+"/complete";
   })
 
   $(".addBtn").on('click', function () {
@@ -230,7 +230,7 @@ $(function () {
 
   $(".screen450s").on("click",function () {
     // console.log($(this).val());
-    $("#acceptForm").attr("action","/bloodplusrepo/public/admin/bloodbags/"+$(this).val()+"/screen");
+    $("#acceptForm").attr("action","/admin/bloodbags/"+$(this).val()+"/screen");
     $("#acceptId").val('Whole Blood');
 
     // console.log($(this).val());

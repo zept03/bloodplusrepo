@@ -33,6 +33,7 @@ class AdminInventoryController extends Controller
 
     public function getBloodBagStatus(BloodRequest $request) {
         //
+        // return response()->json($request);
         $qtyInv = $request->details->bloodType->load(['inventory' => function ($query) 
           {
             $query->where('status','Available');

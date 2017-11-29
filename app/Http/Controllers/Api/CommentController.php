@@ -54,9 +54,7 @@ class CommentController extends Controller
     		$comments[$counter]['message'] = $comment->message;
             $comments[$counter]['initiated']['id'] = $comment->initiated->id;
     		$comments[$counter]['initiated']['name'] = $comment->initiated->name();
-
-            $path = str_replace('localhost','172.17.2.90',$comment->initiated->picture());
-    		$comments[$counter]['initiated']['picture'] = $path;
+    		$comments[$counter]['initiated']['picture'] = $comment->initiated->picture();
     		$comments[$counter]['created_at'] = $comment->created_at;
     		$counter++;
     	}

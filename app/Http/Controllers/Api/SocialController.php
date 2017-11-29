@@ -106,8 +106,7 @@ class SocialController extends Controller
                 {
                     $mutuals[$count]['id'] = $mutual->id;
                     $mutuals[$count]['name'] = $mutual->name();
-                    $path = str_replace('localhost','172.17.2.90',$mutual->picture());
-                    $mutuals[$count]['picture'] = $path;
+                    $mutuals[$count]['picture'] = $mutual->picture();
                     $mutuals[$count]['banner'] = $mutual->banner();
                     $count++;
                 }
@@ -120,8 +119,7 @@ class SocialController extends Controller
                 {
                     $notMutuals[$count]['id'] = $notMutual->id;
                     $notMutuals[$count]['name'] = $notMutual->name();
-                    $path = str_replace('localhost','172.17.2.90',$$notMutual->picture());
-                    $notMutuals[$count]['picture'] = $path;
+                    $notMutuals[$count]['picture'] = $notMutual->picture();
                     $notMutuals[$count]['banner'] = $notMutual->banner();
                     $count++;
                 }
@@ -148,8 +146,7 @@ class SocialController extends Controller
             {
                 $following[$count]['id'] = $followings->id;
                 $following[$count]['name'] = $followings->name();
-                $path = str_replace('localhost','172.17.2.90',$followings->picture());
-                $following[$count]['picture'] = $path;
+                $following[$count]['picture'] = $followings->picture();
                 $following[$count]['banner'] = $followings->banner();
                 $count++;
             }
@@ -215,8 +212,6 @@ class SocialController extends Controller
             'message' => 'User does not exist']);
             }
         }
-        $path = str_replace('localhost','172.17.2.90',$model->picture);
-        $model->picture = $path;
         return response()->json(['user' => $model,
             'class' => $class,
             'status' => 'Succcessful',

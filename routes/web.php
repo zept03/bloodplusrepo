@@ -190,8 +190,8 @@ Route::get('/verifyemail/{token}', 'BloodPlusController@verify');
 Route::prefix('admin')->group(function () {
 
 	Route::group(['middleware' => 'admin_guest'], function() {
-    // Route::get('/register', 'AdminAuth\RegisterController@show');
-    // Route::post('/register', 'AdminAuth\RegisterController@register');
+    Route::get('/register', 'AdminAuth\RegisterController@show');
+    Route::post('/register', 'AdminAuth\RegisterController@register');
     Route::get('/reset','AdminAuth\ForgotPasswordController@showLinkRequestForm');
     Route::post('/sendreset','AdminAuth\ForgotPasswordController@sendResetLinkEmail');
     Route::get('/reset/{token}','AdminAuth\ResetPasswordController@showResetForm');
@@ -270,6 +270,7 @@ Route::group(['prefix' => 'bpadmin', 'middleware' => 'bpadmin'], function ()
         return view('bpadmin.index');
     });
     Route::get('/institutions','Super\InstitutionsController@getInstitutions');
+
     //connected bloodbanks/status etc
     // Route::get('/','Super\SuperAdminController@index');
     //add bloodbank (with their credentials and then add 1 account)

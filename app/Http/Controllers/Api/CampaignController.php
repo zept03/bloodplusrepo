@@ -20,18 +20,6 @@ class CampaignController extends Controller
  	{
  		$campaigns = Campaign::with('initiated.institute')->get();
  		$tmpCampaigns = $campaigns;
- 		foreach($tmpCampaigns as $campaign)
- 		{
-            $path = str_replace('localhost','172.17.2.90',$campaign->picture);
-        	// dd($path);
-            $campaign->picture = $path;
-            // dd($campaign->initiated->picture);
-            // dd($campaign);
-            $campaign->initiated->name = $campaign->initiated->institute->institution;
-            $path = str_replace('localhost','172.17.2.90',$campaign->initiated->picture);
-            // dd($path);
-            $campaign->initiated->picture = $path;
- 		}
  		return response()->json($campaigns);
  	}
 
@@ -85,9 +73,6 @@ class CampaignController extends Controller
  	public function getSpecificCampaign(Campaign $campaign)
  	{
  		$campaign->load(['initiated.institute','attendance.user']);
-        $path = str_replace('localhost','172.17.2.90',$campaign->picture);
-
- 		$campaign->picture = $path;
  		$user = array();
  		$count = 0;
  		$join = false;
@@ -95,10 +80,7 @@ class CampaignController extends Controller
  		{
  			$user[$count]['name'] = $attendance->user->name();
  			$user[$count]['id'] =  $attendance->user->id;
-
-            $path = str_replace('localhost','172.17.2.90',$attendance->user->picture());
-
- 			$user[$count]['picture'] = $path;
+ 			$user[$count]['picture'] = $attendance->user->picture();
  			$count++;
  			if($attendance->user->id == Auth::user()->id)
  			{

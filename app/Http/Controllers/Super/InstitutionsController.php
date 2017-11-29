@@ -12,7 +12,9 @@ class InstitutionsController extends Controller
     public function getInstitutions(Request $request)
     {
     	$institutions = Institution::all();
-    	dd($institutions);
+    	// dd($institutions);
     	return view('bpadmin.institutions');
     }
+
+  	
 }

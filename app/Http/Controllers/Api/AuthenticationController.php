@@ -68,9 +68,6 @@ class AuthenticationController extends Controller
     	$password = $request->input('password');
     	if(Auth::guard('web')->attempt(['email' => $email, 'password' => $password])) {
             $user = Auth::user()->load('notifications');
-            $path = str_replace('localhost','172.17.2.90',$user->picture);
-            $user->picture = $path;
-
             $message = array('user' => Auth::user(), 'status' => 200, 'message' => 'Successful Login');
 
             return response()->json($message);

@@ -12,7 +12,7 @@ use App\Post;
 use Auth;
 use App\BloodRequestDetail;
 use App\BloodCategory;
-use App\bloodType;
+use App\BloodType;
 use Carbon\Carbon;
 use App\InstitutionAdmin;
 use App\BloodRequestDonor;
@@ -24,9 +24,6 @@ class BloodRequestController extends Controller
     
 	public function createBloodRequest(Request $request)
     {
-        // dd(Auth::user()->id);
-        // dd(BloodRequest::where('initiated_by',Auth::user()->id)->with('user')->get());
-        // dd(Auth::user());
         if(!BloodRequest::where('initiated_by',Auth::guard('api')->user()->id)->where(function ($query) {
             $query->where('status','Pending')->orWhere('status','Ongoing');
         })->first())
@@ -69,16 +66,18 @@ class BloodRequestController extends Controller
             {
                 $query->where('name',$name);
             })->where('category',$request->input('bloodCategory'))->first();
-        // dd($bloodBag);
-
+        // return response()->json($bloodBag);
         $bloodRequestDetail = BloodRequestDetail::create([
             'blood_request_id' => $bloodRequest->id,
             'blood_type' => $request->input('bloodType'),
+            'bloodbag_id' => $bloodBag->id,
             'blood_category' => $request->input('bloodCategory'),
             'units' => $request->input('units'),
             'status' => 'Pending'
             ]);
 
+        // dd($bloodBag);
+        
         Log::create([
             'initiated_id' => Auth::user()->id,
             'initiated_type' => 'App\User',

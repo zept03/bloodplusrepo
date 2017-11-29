@@ -14,12 +14,6 @@ class NotificationsController extends Controller
             foreach($tmpData as $tmp)
             {
                 $tmpTmpData = $tmp->data;
-
-
-                $pic = $tmpTmpData['user']['picture'];
-                $path = str_replace('localhost','172.17.2.90',$pic);
-                $tmpTmpData['user']['picture'] = $path;
-
                 $data[] = $tmpTmpData;
             }
     	return response()->json($data);
